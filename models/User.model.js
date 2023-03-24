@@ -20,6 +20,13 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: [
+        'player',
+        'dungeonmaster'
+      ]
+    },
     ownedCharacters: {
       type: [Schema.Types.ObjectId],
       ref: 'Character'
