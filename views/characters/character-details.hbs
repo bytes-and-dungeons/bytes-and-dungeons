@@ -1,0 +1,38 @@
+<h2>{{character.name}}</h2>
+
+<p><strong>Class: </strong>{{character.characterClass}}</p>
+
+<p><strong>Level: </strong>{{character.level}}</p>
+
+<p><strong>Description: </strong>{{character.description}}</p> <hr>
+
+<h2>Attributes:</h2>
+
+<p><strong>Health Points: </strong>{{character.healthPoints}}</p>
+
+<p><strong>Strength: </strong>{{character.strength}}</p>
+
+<p><strong>Dexterity: </strong>{{character.dexterity}}</p>
+
+<p><strong>Constitution: </strong>{{character.constitution}}</p>
+
+<p><strong>Intelligene: </strong>{{character.intelligence}}</p>
+
+<p><strong>Wisdom: </strong>{{character.wisdom}}</p>
+
+<p><strong>Charisma: </strong>{{character.charisma}}</p>
+
+<p><strong>Experience Points: </strong>{{character.experiencePoints}}</p>
+
+
+<form action="/characters/{{character._id}}/edit" method="GET">
+    <button>EDIT CHARACTER</button>
+</form>
+
+<form action="/characters/{{character._id}}/delete" method="POST">
+    <button>DELETE</button>
+</form>
+
+{{#if error}}
+    <p class="error">{{error}}</p>
+{{/if}}

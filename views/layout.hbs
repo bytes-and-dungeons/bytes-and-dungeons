@@ -10,9 +10,14 @@
 
   <body>
     <header>
-      <a href="/auth/login">Login</a>
-      <a href="/auth/signup">SignUp</a>
-      <a href="/user-profile">User</a>
+      <a href="/characters">Characters</a>
+      {{#if currentUser}}
+        <a href="/user-profile">User</a>
+        <a href="/auth/logout">LOG OUT</a>
+      {{else}}
+        <a href="/auth/login">Login</a>
+        <a href="/auth/signup">SignUp</a>
+      {{/if}}
     </header>
     {{{body}}}
 

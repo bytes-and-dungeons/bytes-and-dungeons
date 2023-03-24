@@ -12,6 +12,7 @@ const express = require("express");
 // Handles the handlebars
 // https://www.npmjs.com/package/hbs
 const hbs = require("hbs");
+const isLoggedOut = require("./middleware/isLoggedOut");
 
 const app = express();
 
@@ -20,15 +21,24 @@ require("./config")(app);
 
 const capitalize = require("./utils/capitalize");
 const projectName = "bytes-and-dungeons";
+const isLoggedIn = require('./middleware/isLoggedIn');
 
 app.locals.appTitle = `${capitalize(projectName)} created with IronLauncher`;
+
+// Checks if there's a user logged in (in every possible route)
+app.use((req, res, next) => {
+    res.locals.currentUser = req.session.currentUser;
+    next();
+});
 
 // 👇 Start handling routes here
 app.use("/", require("./routes/index.routes"));
 
 app.use("/auth", require("./routes/auth.routes"));
 
-app.use("/user-profile", require("./routes/user.routes"));
+app.use("/user-profile", isLoggedIn, require("./routes/user.routes"));
+
+app.use("/characters", require("./routes/character.routes"));
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

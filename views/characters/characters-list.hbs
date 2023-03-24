@@ -1,0 +1,21 @@
+<h2>CHARACTERS:</h2>
+
+{{#each character}}
+
+    <h4>{{this.name}}</h4>
+    <p>{{this.characterClass}}</p>
+    <p><strong>Level: </strong>{{this.level}}</p>
+    
+    <a href="/characters/{{this._id}}">See Details</a>
+    
+    <hr />
+    
+{{else}}
+    <h3>No Characters in DB</h3>    
+{{/each}}
+
+{{#if currentUser}}
+    <form action="/characters/create" method="GET">
+        <button>CREATE CHARACTER</button>
+    </form>
+{{/if}}

@@ -1,0 +1,68 @@
+<h2>Create your Character</h2>
+
+<form action="/characters/create" method="POST">
+
+    <label>Name:
+        <input type="text" name="name">
+    </label>
+
+    <label>Class:
+        <select name="characterClass">
+            <option value="Barbarian">Barbarian</option>
+            <option value="Bard">Bard</option>
+            <option value="Cleric">Cleric</option>
+            <option value="Druid">Druid</option>
+            <option value="Fighter">Fighter</option>
+            <option value="Monk">Monk</option>
+            <option value="Paladin">Paladin</option>
+            <option value="Ranger">Ranger</option>
+            <option value="Rogue">Rogue</option>
+            <option value="Sorcerer">Sorcerer</option>
+            <option value="Warlock">Warlock</option>
+            <option value="Wizard">Wizard</option>
+        </select>
+    </label>
+
+    <label>Level:
+        <input type="number" name="level" min="1" max="50">
+    </label>
+
+    <label>Description:
+        <textarea name="description" cols="30" rows="10"></textarea>
+    </label>
+
+    <label>Health:
+        <input type="number" name="healthPoints">
+    </label>
+
+    <label>Strength:
+        <input type="number" name="strength" min="0">
+    </label>
+
+    <label>Dexterity:
+        <input type="number" name="dexterity" min="0">
+    </label>
+
+    <label>Constitution:
+        <input type="number" name="constitution" min="0">
+    </label>
+
+    <label>Intelligence:
+        <input type="number" name="intelligence" min="0">
+    </label>
+
+    <label>Wisdom:
+        <input type="number" name="wisdom" min="0">
+    </label>
+
+    <label>Charisma:
+        <input type="number" name="charisma" min="0">
+    </label>
+
+    <label>Experience Points:
+        <input type="number" name="experiencePoints" min="0" value="0" disabled>
+    </label>
+
+    <button type="submit">Create</button>
+
+</form>
