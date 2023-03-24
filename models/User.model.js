@@ -20,6 +20,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    ownedCharacters: {
+      type: [Schema.Types.ObjectId],
+      ref: 'Character'
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
