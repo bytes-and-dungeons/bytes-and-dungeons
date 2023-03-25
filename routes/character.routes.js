@@ -31,16 +31,20 @@ router.get("/:charId", (req, res, next) => {
     const {charId} = req.params;
     const user = req.session.currentUser;
 
-    Character.findById(charId)
-        .populate("owner")
-        .then((character) => {
-            const userIsOwner = checkOwnership(user, character);
-            const error = req.session.error;
-            delete req.session.error;
-            res.render("characters/character-details", {character, userIsOwner, error});
-        }).catch((err) => {
-            next(err);
-        });
+    if(user) {
+        Character.findById(charId)
+            .populate("owner")
+            .then((character) => {
+                const userIsOwner = checkOwnership(user, character);
+                const error = req.session.error;
+                delete req.session.error;
+                res.render("characters/character-details", {character, userIsOwner, error});
+            }).catch((err) => {
+                next(err);
+            });
+    } else {
+        res.redirect("/auth/login");
+    }
 });
 
 //GET /characters/:characterID/edit
