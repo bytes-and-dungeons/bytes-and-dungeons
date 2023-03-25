@@ -10,7 +10,12 @@
 
   <body>
     <header>
+      {{#if currentUser}}
+        <h2>Logged as {{currentUser.username}}</h2>
+      {{/if}}
+
       <a href="/characters">Characters</a>
+
       {{#if currentUser}}
         <a href="/user-profile">User</a>
         <a href="/auth/logout">LOG OUT</a>

@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
             if(currentUserId.toString() === returnedChar.owner.toString()) {
                 next();
             } else {
-                req.session.error = `You can't delete a character you don't own.`;
+                req.session.error = `You can't modify a character you don't own!!!`;
                 res
                   .status(400)
                   .redirect(`/characters/${charId}`)

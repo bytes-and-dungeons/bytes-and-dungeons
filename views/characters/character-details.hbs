@@ -1,5 +1,7 @@
 <h2>{{character.name}}</h2>
 
+<p><strong>Owner: </strong>{{character.owner.username}}</p>
+
 <p><strong>Class: </strong>{{character.characterClass}}</p>
 
 <p><strong>Level: </strong>{{character.level}}</p>
@@ -24,14 +26,15 @@
 
 <p><strong>Experience Points: </strong>{{character.experiencePoints}}</p>
 
+{{#if userIsOwner}}
+    <form action="/characters/{{character._id}}/edit" method="GET">
+        <button>EDIT CHARACTER</button>
+    </form>
 
-<form action="/characters/{{character._id}}/edit" method="GET">
-    <button>EDIT CHARACTER</button>
-</form>
-
-<form action="/characters/{{character._id}}/delete" method="POST">
-    <button>DELETE</button>
-</form>
+    <form action="/characters/{{character._id}}/delete" method="POST">
+        <button>DELETE</button>
+    </form>
+{{/if}}
 
 {{#if error}}
     <p class="error">{{error}}</p>
