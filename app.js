@@ -21,14 +21,12 @@ require("./config")(app);
 
 const capitalize = require("./utils/capitalize");
 const projectName = "bytes-and-dungeons";
-const isLoggedIn = require('./middleware/isLoggedIn');
-
-app.locals.appTitle = `${capitalize(projectName)} created with IronLauncher`;
+const isLoggedIn = require("./middleware/isLoggedIn");
 
 // Checks if there's a user logged in (in every possible route)
 app.use((req, res, next) => {
-    res.locals.currentUser = req.session.currentUser;
-    next();
+  res.locals.currentUser = req.session.currentUser;
+  next();
 });
 
 // 👇 Start handling routes here

@@ -1,12 +1,71 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
 }
 
-a {
-  color: #00b7ff;
+.navbar {
+  background-color: #990000;
+  border-bottom: 2px solid #c80000;
 }
 
-h1 {
-  color: 15px;
+.nav-link {
+  font-size: 18px;
+}
+
+.jumbotron {
+  background-image: url('/images/dnd-bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 400px;
+}
+
+.jumbotron h1,
+.jumbotron p {
+  color: white;
+}
+
+.btn-primary {
+  background-color: #0066cc;
+  border-color: #0066cc;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #004c99;
+  border-color: #004c99;
+}
+
+.btn-secondary {
+  background-color: #e6e6e6;
+  border-color: #e6e6e6;
+  color: #333;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active {
+  background-color: #d9d9d9;
+  border-color: #d9d9d9;
+  color: #333;
+}
+
+.col-lg-4 img {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 992px) {
+  .jumbotron {
+    height: 600px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .jumbotron h1 {
+    font-size: 50px;
+  }
+  .jumbotron p {
+    font-size: 20px;
+  }
 }

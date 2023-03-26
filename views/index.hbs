@@ -1,2 +1,40 @@
-<h1>{{appTitle}} 🚀</h1>
-<p>Welcome Ironhacker!</p>
+<div class="jumbotron jumbotron-fluid bg-dark text-light">
+    <div class="container">
+        <h1 class="display-4">Welcome to Bytes &amp; Dungeons!</h1>
+        <p class="lead">
+            The ultimate platform for your Dungeons &amp; Dragons campaign.
+        </p>
+        {{#unless currentUser}}
+        <p class="lead">
+            <a href="/auth/signup" class="btn btn-lg btn-primary me-3">Sign Up</a>
+            <a href="/auth/login" class="btn btn-lg btn-secondary">Log In</a>
+        </p>
+        {{/unless}}
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h2>About Us</h2>
+            <p>
+                Bytes &amp; Dungeons is the premier online platform for players and Dungeon Masters to connect, organize
+                and
+                run Dungeons &amp; Dragons campaigns.
+            </p>
+            <p>
+                Our intuitive user interface and powerful tools allow you to manage your characters, maps, encounters,
+                and
+                more with ease.
+            </p>
+            <p>
+                Whether you're a seasoned player or just starting out, Bytes &amp; Dungeons has everything you need to
+                make
+                your Dungeons &amp; Dragons experience unforgettable.
+            </p>
+        </div>
+        <div class="col-lg-4">
+            <img src="/images/dnd.png" alt="Dungeons &amp; Dragons" class="img-fluid" />
+        </div>
+    </div>
+</div>
