@@ -4,6 +4,7 @@ const router = express.Router();
 const isLoggedIn = require('../middleware/isLoggedIn');
 const isOwner = require('../middleware/isOwner');
 const checkOwnership = require("../utils/checkOwnership");
+const createCharacter = require("../utils/createCharacter");
 
 const Character = require('../models/Character.model');
 const User = require("../models/User.model");
@@ -62,23 +63,9 @@ router.get("/:charId/edit", isLoggedIn, isOwner, (req, res, next) => {
 
 // POST /characters/create
 router.post("/create", isLoggedIn, (req, res, next) => {
-    const {name, characterClass, level, description, healthPoints, strength, dexterity, constitution, intelligence, wisdom, charisma, experiencePoints} = req.body;
+    const {name, characterClass, description} = req.body;
 
-    const newCharacterData = {
-        name,
-        characterClass,
-        level,
-        description,
-        healthPoints,
-        strength,
-        dexterity,
-        constitution,
-        intelligence,
-        wisdom,
-        charisma,
-        experiencePoints,
-        owner: req.session.currentUser._id
-    };
+    const newCharacterData = createCharacter(req.session.currentUser._id, name, description, characterClass);
 
     Character.create(newCharacterData)
         .then(() => {

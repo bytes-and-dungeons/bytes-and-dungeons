@@ -6,27 +6,6 @@
         <input type="text" name="name" value="{{character.name}}">
     </label>
 
-    <label>Class:
-        <select name="characterClass" value="{{character.characterClass}}">
-            <option value="Barbarian">Barbarian</option>
-            <option value="Bard">Bard</option>
-            <option value="Cleric">Cleric</option>
-            <option value="Druid">Druid</option>
-            <option value="Fighter">Fighter</option>
-            <option value="Monk">Monk</option>
-            <option value="Paladin">Paladin</option>
-            <option value="Ranger">Ranger</option>
-            <option value="Rogue">Rogue</option>
-            <option value="Sorcerer">Sorcerer</option>
-            <option value="Warlock">Warlock</option>
-            <option value="Wizard">Wizard</option>
-        </select>
-    </label>
-
-    <label>Level:
-        <input type="number" name="level" min="1" max="50" value="{{character.level}}">
-    </label>
-
     <label>Description:
         <textarea name="description" cols="30" rows="10">{{character.description}}</textarea>
     </label>
@@ -39,28 +18,12 @@
         <input type="number" name="strength" min="0" value="{{character.strength}}">
     </label>
 
-    <label>Dexterity:
-        <input type="number" name="dexterity" min="0" value="{{character.dexterity}}">
-    </label>
-
-    <label>Constitution:
-        <input type="number" name="constitution" min="0" value="{{character.constitution}}">
-    </label>
-
-    <label>Intelligence:
-        <input type="number" name="intelligence" min="0" value="{{character.intelligence}}">
-    </label>
-
-    <label>Wisdom:
-        <input type="number" name="wisdom" min="0" value="{{character.wisdom}}">
-    </label>
-
-    <label>Charisma:
-        <input type="number" name="charisma" min="0" value="{{character.charisma}}">
+    <label>Defense:
+        <input type="number" name="defense" min="0" value="{{character.defense}}">
     </label>
 
     <label>Experience Points:
-        <input type="number" name="experiencePoints" min="0" value="{{character.experiencePoints}}">
+        <input type="number" name="experiencePoints" min="0" value="{{character.experiencePoints}}" disabled>
     </label>
 
     <button type="submit">Submit Edit</button>

@@ -9,72 +9,39 @@ const characterSchema = new Schema(
     },
     characterClass: {
       type: String,
-      enum: [
-        'Barbarian',
-        'Bard',
-        'Cleric',
-        'Druid',
-        'Fighter',
-        'Monk',
-        'Paladin',
-        'Ranger',
-        'Rogue',
-        'Sorcerer',
-        'Warlock',
-        'Wizard',
-      ]
+      enum: ["Bard", "Fighter", "Wizard"],
     },
     level: {
       type: Number,
-      min: 1
+      min: 1,
     },
     description: {
       type: String,
-      maxlength: 5000 
+      maxlength: 5000,
     },
     healthPoints: {
-      type: Number, 
-      required: true
+      type: Number,
+      required: true,
     },
     strength: {
       type: Number,
       min: 0,
-      required: true
+      required: true,
     },
-    dexterity: {
+    defense: {
       type: Number,
       min: 0,
-      required: true
-    },
-    constitution: {
-      type: Number,
-      min: 0,
-      required: true
-    },
-    intelligence: {
-      type: Number,
-      min: 0,
-      required: true
-    },
-    wisdom: {
-      type: Number,
-      min: 0,
-      required: true
-    },
-    charisma: {
-      type: Number,
-      min: 0,
-      required: true
+      required: true,
     },
     experiencePoints: {
-      type: Number, 
+      type: Number,
       min: 0,
-      default: 0
+      default: 0,
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
-    }
+      ref: "User",
+    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
