@@ -5,6 +5,7 @@ const isLoggedIn = require('../middleware/isLoggedIn');
 const isOwner = require('../middleware/isOwner');
 const checkOwnership = require("../utils/checkOwnership");
 const createCharacter = require("../utils/createCharacter");
+const calculateUpgradedAttributes = require('../utils/calculateUpgradedAttributes');
 
 const Character = require('../models/Character.model');
 const User = require("../models/User.model");
@@ -60,6 +61,20 @@ router.get("/:charId/edit", isLoggedIn, isOwner, (req, res, next) => {
         });
 });
 
+//GET /characters/:characterID/upgrade
+router.get("/:charId/upgrade", isLoggedIn, isOwner, (req, res, next) => {
+    const {charId} = req.params;
+
+    Character.findById(charId)
+        .then((character) => {
+            const error = req.session.error;
+            delete req.session.error;
+            res.render("characters/character-upgrade", {character, error});
+        }).catch((err) => {
+            next(err);
+        });
+});
+
 
 // POST /characters/create
 router.post("/create", isLoggedIn, (req, res, next) => {
@@ -80,22 +95,11 @@ router.post("/create", isLoggedIn, (req, res, next) => {
 router.post("/:charId/edit", isLoggedIn, isOwner, (req, res, next) => {
     const { charId }  = req.params;
 
-    const {name, characterClass, level, description, healthPoints, strength, dexterity, constitution, intelligence, wisdom, charisma, experiencePoints} = req.body;
+    const {name, description} = req.body;
 
     const newCharacterData = {
         name,
-        characterClass,
-        level,
-        description,
-        healthPoints,
-        strength,
-        dexterity,
-        constitution,
-        intelligence,
-        wisdom,
-        charisma,
-        experiencePoints,
-        owner: req.session.currentUser._id
+        description
     };
 
     Character.findByIdAndUpdate(charId, newCharacterData, {new: true})
@@ -103,6 +107,39 @@ router.post("/:charId/edit", isLoggedIn, isOwner, (req, res, next) => {
             res.redirect('/characters')
         })
         .catch(err => {
+            next(err);
+        });
+});
+
+
+//POST /characters/:charId/upgrade
+router.post("/:charId/upgrade", isLoggedIn, isOwner, (req, res, next) => {
+    const { charId }  = req.params;
+
+    let {healthPoints, strengthPoints, defensePoints} = req.body;
+    healthPoints = parseInt(healthPoints);
+    defensePoints = parseInt(defensePoints);
+    strengthPoints = parseInt(strengthPoints);
+    
+    Character.findById(charId)
+        .then((character) => {
+            
+            if((healthPoints + strengthPoints + defensePoints) <= character.experiencePoints) {
+
+                const newCharacterData = calculateUpgradedAttributes(character, healthPoints, strengthPoints, defensePoints);
+                
+                return Character.findByIdAndUpdate(charId, newCharacterData, {new: true});
+
+            } else {
+                req.session.error = "You tried to use more Experience Points than you currently have."
+                res.redirect(`/characters/${charId}/upgrade`);
+            }
+            
+        })
+        .then(() => {
+            res.redirect(`/characters/${charId}`);
+        })
+        .catch((err) => {
             next(err);
         });
 });

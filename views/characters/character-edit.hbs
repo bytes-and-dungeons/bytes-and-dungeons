@@ -10,22 +10,8 @@
         <textarea name="description" cols="30" rows="10">{{character.description}}</textarea>
     </label>
 
-    <label>Health:
-        <input type="number" name="healthPoints" value="{{character.healthPoints}}">
-    </label>
-
-    <label>Strength:
-        <input type="number" name="strength" min="0" value="{{character.strength}}">
-    </label>
-
-    <label>Defense:
-        <input type="number" name="defense" min="0" value="{{character.defense}}">
-    </label>
-
-    <label>Experience Points:
-        <input type="number" name="experiencePoints" min="0" value="{{character.experiencePoints}}" disabled>
-    </label>
-
     <button type="submit">Submit Edit</button>
 
 </form>
+
+<p><strong>Experience Points: {{character.experiencePoints}}</strong></p>

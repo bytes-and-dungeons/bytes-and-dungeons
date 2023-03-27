@@ -7,7 +7,6 @@ module.exports = (req, res, next) => {
 
     Character.findById(charId)
         .then(returnedChar => {
-            console.log(returnedChar)
             if(currentUserId.toString() === returnedChar.owner.toString()) {
                 next();
             } else {
@@ -20,7 +19,5 @@ module.exports = (req, res, next) => {
         .catch(err => {
             next(err);
         })
-
-    console.log(currentUserId, charId)
 
 };

@@ -1,0 +1,28 @@
+<h2>Upgrade your Character</h2>
+
+<form action="/characters/{{character._id}}/upgrade" method="POST">
+
+    <p><strong>Name: </strong>{{character.name}}</p>
+    <p><strong>Description: </strong>{{character.description}}</p>
+
+    <label>Health Points:
+        <input type="number" name="healthPoints" min="0" placeholder="UpgradePoints" value="0">
+    </label>
+
+    <label>Strength:
+        <input type="number" name="strengthPoints" min="0" placeholder="UpgradePoints" value="0">
+    </label>
+
+    <label>Defense:
+        <input type="number" name="defensePoints" min="0" placeholder="UpgradePoints" value="0">
+    </label>
+
+    <button type="submit">Submit Edit</button>
+
+</form>
+
+<p><strong>Experience Points available to use: </strong>{{character.experiencePoints}}</p>
+
+{{#if error}}
+<p>{{error}}</p>
+{{/if}}
