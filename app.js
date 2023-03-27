@@ -15,6 +15,10 @@ const hbs = require("hbs");
 const isLoggedOut = require("./middleware/isLoggedOut");
 
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
@@ -37,6 +41,11 @@ app.use("/auth", require("./routes/auth.routes"));
 app.use("/user-profile", isLoggedIn, require("./routes/user.routes"));
 
 app.use("/characters", require("./routes/character.routes"));
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
+
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
