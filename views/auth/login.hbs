@@ -1,26 +1,30 @@
-<div id="login-form">
-  <h2>Log In</h2>
-  <form action="/auth/login" method="POST">
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form action="/auth/login" method="POST">
 
-    <label> Username
-      <input type="text" name="username" placeholder="Your username" />
-    </label>
+        <div class="mb-3">
+          <label class="form-label">Email:</label>
+          <input type="email" name="email" class="form-control" placeholder="Your email">
+        </div>
 
-    <label> Email
-      <input type="email" name="email" placeholder="Your email" />
-    </label>
+        <div class="mb-3">
+          <label class="form-label">Password:</label>
+          <input type="password" name="password" class="form-control" placeholder="Your password">
+        </div>
 
-    <label> Password
-      <input type="password" name="password" placeholder="Your password" />
-    </label>
+        <div class="text-center mb-3">
+          <button type="submit" class="btn btn-success">Login</button>
+        </div>
 
-    <button type="submit">Log In</button>
+        <p class="text-bg-warning text-center p-2 rounded-5">Don't have an Account? <a href="/auth/signup">Sign Up!</a>
+        </p>
 
-    <p>Don't have an Account? <a href="/auth/signup">Sign Up!</a></p>
+        {{#if errorMessage}}
+        <p class="error mt-5 text-bg-danger p-3 rounded">{{errorMessage}}</p>
+        {{/if}}
 
-
-    {{#if errorMessage}}
-      <p class="error">{{errorMessage}}</p>
-    {{/if}}
-  </form>
+      </form>
+    </div>
+  </div>
 </div>
