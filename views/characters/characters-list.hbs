@@ -1,24 +1,56 @@
-<h2>CHARACTERS:</h2>
+<div class="container">
+    <header class="pb-3 mb-4 border-bottom">
+        <a href="/characters" class="d-flex align-items-center text-dark text-decoration-none">
+            <span class="fs-4">Character Gallery</span>
+        </a>
+    </header>
 
-{{#each character}}
+    <div class="p-5 mb-4 bg-dark-subtle rounded-3">
+        <div class="container-fluid">
+            <h1>Welcome to the Character Gallery</h1>
+            <p class="col-md-8 fs-4">
+                Blah blah blah lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem
+                ipsum
+                <br /> <br />
+                Check out the characters created by the community!
+            </p>
+        </div>
+    </div>
+</div>
 
-<h4>{{this.name}}</h4>
-<p>{{this.characterClass}}</p>
-<p><strong>Level: </strong>{{this.level}}</p>
-<p><strong>Owner: </strong>{{this.owner.username}}</p>
+<div class="container">
+    <div class="row">
 
+        {{#each character}}
 
-<a href="/characters/{{this._id}}">See Details</a>
-<a href="/characters/{{this.id}}/upgrade">Upgrade</a>
+        <div class="card mx-auto mb-3 h-100 shadow-lg">
+            <h3 class="card-header mb-2 border-0 rounded bg-danger text-center">
+                {{this.name}}
+                <span class="badge bg-secondary">{{this.characterClass}}</span>
+            </h3>
+            <img class="card-img-top" src="https://th.bing.com/th/id/OIP.XSZAFm-5JI7nriDLwZqRQQHaE7?pid=ImgDet&rs=1"
+                alt="Card image" width="100" height="300">
+            <div class="card-body">
+                <h4 class="card-text">🎲 Level: {{this.level}}</h4>
+                <h4 class="card-text">🕵🏻‍♂️ Owner: {{this.owner.username}}</p>
+                <div class="text-center">
+                    <a href="/characters/{{this._id}}" class="btn btn-success mb-3">See Details</a>
+                    <a href="/characters/{{this._id}}/upgrade" class="btn btn-warning mb-3">Upgrade</a>
+                </div>
+            </div>
+        </div>
 
-<hr />
+        {{else}}
 
-{{else}}
-<h3>No Characters in DB</h3>
-{{/each}}
+        No characters in DB.
+
+        {{/each}}
+        
+    </div>
+</div>
 
 {{#if currentUser}}
 <form action="/characters/create" method="GET">
-    <button>CREATE CHARACTER</button>
+    <button class="position-fixed bottom-0 end-0 mb-3 me-3 btn btn-dark">CREATE CHARACTER</button>
 </form>
 {{/if}}
