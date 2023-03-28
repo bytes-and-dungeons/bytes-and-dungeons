@@ -1,17 +1,27 @@
-<h2>Create your Character</h2>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form action="/characters/{{character._id}}/edit" method="POST">
 
-<form action="/characters/{{character._id}}/edit" method="POST">
+        <div class="mb-3">
+          <label class="form-label">Name:</label>
+          <input type="text" name="name" class="form-control" placeholder="New name">
+        </div>
 
-    <label>Name:
-        <input type="text" name="name" value="{{character.name}}">
-    </label>
+        <div class="mb-3">
+          <label class="form-label">Description:</label>
+          <input type="text" name="description" class="form-control" placeholder="New description">
+        </div>
 
-    <label>Description:
-        <textarea name="description" cols="30" rows="10">{{character.description}}</textarea>
-    </label>
+        <div class="text-center mb-3">
+          <button type="submit" class="btn btn-success">Send Changes</button>
+        </div>
 
-    <button type="submit">Submit Edit</button>
+        {{#if errorMessage}}
+        <p class="error mt-5 text-bg-danger p-3 rounded">{{errorMessage}}</p>
+        {{/if}}
 
-</form>
-
-<p><strong>Experience Points: {{character.experiencePoints}}</strong></p>
+      </form>
+    </div>
+  </div>
+</div>
