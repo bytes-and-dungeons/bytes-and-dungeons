@@ -38,10 +38,12 @@
             <div class="card-body">
                 <h4 class="card-text">🎲 Level: {{this.level}}</h4>
                 <h4 class="card-text">🕵🏻‍♂️ Owner: {{this.owner.username}}</p>
-                <div class="text-center">
-                    <a href="/characters/{{this._id}}" class="btn btn-success mb-3">See Details</a>
-                    <a href="/characters/{{this._id}}/upgrade" class="btn btn-warning mb-3">Upgrade</a>
-                </div>
+                    <div class="text-center">
+                        <a href="/characters/{{this._id}}" class="btn btn-success mb-3">See Details</a>
+                        {{#if currentUser}}
+                        <a href="/characters/{{this._id}}/upgrade" class="btn btn-warning mb-3">Upgrade</a>
+                        {{/if}}
+                    </div>
             </div>
         </div>
 
@@ -50,7 +52,7 @@
         No characters in DB.
 
         {{/each}}
-        
+
     </div>
 </div>
 
