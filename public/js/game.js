@@ -1,6 +1,7 @@
 const socket = io("http://localhost:3000/");
 
-const userId = document.getElementById("user-id").innerText;
-console.log(userId);
+const charId = document.getElementById("char-id").innerText;
 
-socket.emit("enterGame", userId);
+socket.emit("enterGame");
+
+

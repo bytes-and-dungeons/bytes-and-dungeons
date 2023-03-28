@@ -1,3 +1,28 @@
 <h2>GAME</h1>
-    <p id="user-id">{{user._id}}</p>
+
+    <h3>YOUR CHARACTER: </h3>
+
+    <p><strong>Name: </strong>{{character.name}}</p>
+
+    <p><strong>Class: </strong>{{character.characterClass}}</p>
+
+    <p><strong>Level: </strong>{{character.level}}</p>
+
+    <p><strong>Description: </strong>{{character.description}}</p>
+    <hr>
+
+    <h2>Attributes:</h2>
+
+    <p><strong>Health Points: </strong>{{character.healthPoints}}</p>
+
+    <p><strong>Strength: </strong>{{character.strength}}</p>
+
+    <p><strong>Defense: </strong>{{character.defense}}</p>
+
+    <p class="visually-hidden" id="char-id">{{character._id}}</p>
+
+    <hr>
+
+    <h3>ENEMY CHARACTER:</h3>
+
     <script src="/js/game.js"></script>

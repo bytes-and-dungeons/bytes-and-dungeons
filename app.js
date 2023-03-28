@@ -38,7 +38,7 @@ app.use("/user-profile", isLoggedIn, require("./routes/user.routes"));
 
 app.use("/characters", require("./routes/character.routes"));
 
-app.use("/game", require("./routes/game.routes"));
+app.use("/game", isLoggedIn, require("./routes/game.routes"));
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
