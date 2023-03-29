@@ -5,6 +5,7 @@ const io = require("socket.io")(server, {cors: {origin: "*"}});
 
 const Character = require("./models/Character.model");
 const GameSession = require("./models/GameSession.model");
+const Game = require("./models/Game.model");
 
 // ℹ️ Sets the PORT for our app to have access to it. If no env has been set, we hard code it to 3000
 const PORT = process.env.PORT || 3000;
@@ -59,13 +60,32 @@ io.on("connection", (socket) => {
       try {
 
         const gameSessionOne = await GameSession.findOne({socketId: playersArr[0]});
-        const charOne = await Character.findById(gameSessionOne.selectedCharacter);
+        const charOne = await Character.findById(gameSessionOne.selectedCharacter).populate("owner");
         
         const gameSessionTwo = await GameSession.findOne({socketId: playersArr[1]});
-        const charTwo = await Character.findById(gameSessionTwo.selectedCharacter);
-        
+        const charTwo = await Character.findById(gameSessionTwo.selectedCharacter).populate("owner");
 
-        io.to(`${gameRoom}`).emit("loadChar", charOne, charTwo);
+        const gameData = {
+          gameRoom,
+          playerOneSocketId: playersArr[0],
+          playerTwoSocketId: playersArr[1],
+          playerOneChar: [{
+            name: charOne.name,
+            health: charOne.healthPoints,
+            strength: charOne.strength,
+            defense: charOne.defense
+          }],
+          playerTwoChar: [{
+            name: charTwo.name,
+            health: charTwo.healthPoints,
+            strength: charTwo.strength,
+            defense: charTwo.defense
+          }]
+        };
+        
+        const game = await Game.create(gameData);
+
+        io.to(`${gameRoom}`).emit("loadChar", charOne, charTwo, game);
 
       } catch (err) {
         console.error(err);
@@ -73,5 +93,129 @@ io.on("connection", (socket) => {
 
     }
   });  
+
+  socket.on("gameBeginRound", async (game) => {
+
+    try{
+
+      const defaultActions = {
+        playerOneActionState: "Idle",
+        playerTwoActionState: "Idle",
+        message: ""
+      };
+  
+      const updatedGame = await Game.findByIdAndUpdate(game._id, defaultActions, {new: true});
+  
+      io.to(`${game.gameRoom}`).emit("runRound", updatedGame);
+
+    } catch (err) {
+      console.error(err);
+    }
+
+  });
+
+  socket.on("gameButtonPressed", async (gameOld, action) => {
+
+    try{
+  
+      let actionData;
+  
+      if(gameOld.playerOneSocketId === socket.id) {
+        actionData = {
+          playerOneActionState: action
+        };
+      } else {
+        actionData = {
+          playerTwoActionState: action
+        };
+      }
+      
+      const game = await Game.findByIdAndUpdate(gameOld._id, actionData, {new: true});
+  
+      
+      if(game.playerOneActionState !== "Idle" && game.playerTwoActionState !== "Idle") {
+        
+        let message;
+        let playerOneNewHealth;
+        let playerTwoNewHealth;
+  
+        if(game.playerOneActionState === game.playerTwoActionState){
+
+          message = "Tie!!!";
+          playerOneNewHealth = game.playerOneChar[0].health;
+          playerTwoNewHealth = game.playerTwoChar[0].health;
+
+        } else if (game.playerOneActionState === "Attack" && game.playerTwoActionState === "Spell") {
+  
+          message = `${game.playerOneChar[0].name} attacked ${game.playerTwoChar[0].name}, and won the round!`;
+          playerTwoNewHealth = game.playerTwoChar[0].health - (game.playerOneChar[0].strength - game.playerTwoChar[0].defense);
+          playerOneNewHealth = game.playerOneChar[0].health;
+  
+        } else if (game.playerOneActionState === "Spell" && game.playerTwoActionState === "Defense") {
+  
+          message = `${game.playerOneChar[0].name} cast a spell on ${game.playerTwoChar[0].name}, and won the round!`;
+          playerTwoNewHealth = game.playerTwoChar[0].health - (game.playerOneChar[0].strength);
+          playerOneNewHealth = game.playerOneChar[0].health;
+  
+        } else if (game.playerOneActionState === "Defense" && game.playerTwoActionState === "Attack") {
+  
+          message = `${game.playerOneChar[0].name} defended ${game.playerTwoChar[0].name}'s attack, and won the round!`;
+          playerTwoNewHealth = game.playerTwoChar[0].health - (Math.round(game.playerTwoChar[0].strength / 3));
+          playerOneNewHealth = game.playerOneChar[0].health;
+  
+        } else if (game.playerTwoActionState === "Attack" && game.playerOneActionState === "Spell") {
+  
+          message = `${game.playerTwoChar[0].name} attacked ${game.playerOneChar[0].name}, and won the round!`;
+          playerOneNewHealth = game.playerOneChar[0].health - (game.playerTwoChar[0].strength - game.playerTwoChar[0].defense);
+          playerTwoNewHealth = game.playerTwoChar[0].health;
+  
+        } else if (game.playerTwoActionState === "Spell" && game.playerOneActionState === "Defense") {
+  
+          message = `${game.playerTwoChar[0].name} cast a spell on ${game.playerOneChar[0].name}, and won the round!`;
+          playerOneNewHealth = game.playerOneChar[0].health - (game.playerTwoChar[0].strength);
+          playerTwoNewHealth = game.playerTwoChar[0].health;
+  
+        } else if (game.playerTwoActionState === "Defense" && game.playerOneActionState === "Attack") {
+  
+          message = `${game.playerTwoChar[0].name} defended ${game.playerOneChar[0].name}'s attack, and won the round!`;
+          playerOneNewHealth = game.playerOneChar[0].health - (Math.round(game.playerTwoChar[0].strength / 3));
+          playerTwoNewHealth = game.playerTwoChar[0].health;
+  
+        }
+  
+        
+        if(playerOneNewHealth <= 0) {
+          io.to(`${game.gameRoom}`).emit("gameOver", game.playerTwoSocketId);
+        } else if (playerTwoNewHealth <= 0) {
+          io.to(`${game.gameRoom}`).emit("gameOver", game.playerOneSocketId);
+        } else {
+          
+          const updatedData = {
+            message: message,
+            playerOneChar: [{
+              name: game.playerOneChar[0].name,
+              health: playerOneNewHealth,
+              strength: game.playerOneChar[0].strength,
+              defense: game.playerOneChar[0].defense,
+            }],
+            playerTwoChar: [{
+              name: game.playerTwoChar[0].name,
+              health: playerTwoNewHealth,
+              strength: game.playerTwoChar[0].strength,
+              defense: game.playerTwoChar[0].defense,
+            }]
+          };
+    
+          const updatedGame = await Game.findByIdAndUpdate(game._id, updatedData, {new: true});
+  
+          io.to(`${game.gameRoom}`).emit("beginNewRound", updatedGame);
+  
+        } 
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    
+  });
 
 });
