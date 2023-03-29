@@ -1,15 +1,31 @@
-<h2>Edit {{user.username}}'s Profile</h2>
+<h2 class="text-center">Edit your Profile</h2>
 
-<form action="/user-profile/edit" method="POST">
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card">
+        <div class="upper">
+            <img src="/images/banner.png" alt="banner" />
+        </div>
 
-    <label>Username:
-        <input type="text" name="username" value="{{user.username}}">
-    </label>
+        <div class="user text-center">
+            <div class="profile">
+                <img src="/images/profilepic.png" alt="Profile Img" />
+            </div>
+        </div>
 
-    <label>Email:
-        <input type="text" name="email" value="{{user.email}}">
-    </label>
+        <form action="/user-profile/edit" method="POST" class="text-center mt-5">
 
-    <button type="submit">Submit</button>
+            <label class="form-label">Username:
+                <input type="text" name="username" value="{{user.username}}" class="form-control">
+            </label>
 
-</form>
+            <label class="form-label">Email:
+                <input type="text" name="email" value="{{user.email}}" class="form-control">
+            </label>
+
+            <br />
+
+            <button type="submit" class="btn btn-info mt-3">Submit</button>
+
+        </form>
+    </div>
+</div>
