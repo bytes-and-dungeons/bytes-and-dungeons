@@ -1,0 +1,31 @@
+<h1>Select One of your Characters to Play!</h1>
+
+{{#each character}}
+
+<p><strong>Name: </strong>{{this.name}}</p>
+
+<p><strong>Class: </strong>{{this.characterClass}}</p>
+
+<p><strong>Level: </strong>{{this.level}}</p>
+
+<p><strong>Description: </strong>{{this.description}}</p>
+<hr>
+
+<h2>Attributes:</h2>
+
+<p><strong>Health Points: </strong>{{this.healthPoints}}</p>
+
+<p><strong>Strength: </strong>{{this.strength}}</p>
+
+<p><strong>Defense: </strong>{{this.defense}}</p>
+
+<p><strong>Experience Points: </strong>{{this.experiencePoints}}</p>
+
+<form action="/game" method="POST">
+    <input type="text" name="charId" value={{this._id}} class="hidden">
+    <button type="submit">Choose!</button>
+</form>
+
+{{else}}
+<h3>You don't Have Any Characters!</h3>
+{{/each}}

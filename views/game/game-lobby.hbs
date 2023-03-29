@@ -1,0 +1,34 @@
+<div id="loading-page" class="">
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status"></div>
+        <br />
+        <h4>Waiting for other players...</h4>
+    </div>
+    <h2 id="char-id">{{charId}}</h2>
+</div>
+
+<div id="game-page" class="visually-hidden">
+    <h1>GAME</h1>
+    <h3 id="user-id">{{userId}}</h3>
+
+    <h2 id="player"></h2>
+    <div id="my-char">
+        <h2 class="owner"></h2>
+        <h2 class="name"></h2>
+        <h2 class="health"></h2>
+        <h2 class="strength"></h2>
+        <h2 class="defense"></h2>
+    </div>
+
+    <hr />
+
+    <h2 id="enemy"></h2>
+    <div id="enemy-char">
+        <h2 class="name"></h2>
+        <h2 class="health"></h2>
+        <h2 class="strength"></h2>
+        <h2 class="defense"></h2>
+    </div>
+</div>
+
+<script src="/js/gameLobby.js"></script>

@@ -8,7 +8,6 @@ const createCharacter = require("../utils/createCharacter");
 const calculateUpgradedAttributes = require('../utils/calculateUpgradedAttributes');
 
 const Character = require('../models/Character.model');
-const User = require("../models/User.model");
 
 
 //GET /characters
