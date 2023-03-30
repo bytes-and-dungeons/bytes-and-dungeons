@@ -1,4 +1,10 @@
-const socket = io();
+const socket = io({
+    transports: ['websocket'],
+    upgrade: false,
+    extraHeaders: {
+      'Connection': 'keep-alive'
+    }
+  });
 
 const charId = document.getElementById("char-id").innerText;
 const userId = document.getElementById("user-id").innerText;

@@ -4,7 +4,6 @@ const server = require("http").createServer(app);
 
 const io = require("socket.io")(server, 
   {cors: {origin: "*"},
-  pingTimeout: 120000
 });
 
 const Character = require("./models/Character.model");
