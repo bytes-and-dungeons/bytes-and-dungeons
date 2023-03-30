@@ -6,6 +6,7 @@ const characterSchema = new Schema(
     name: {
       type: String,
       required: true,
+      maxlength: 15
     },
     characterClass: {
       type: String,
