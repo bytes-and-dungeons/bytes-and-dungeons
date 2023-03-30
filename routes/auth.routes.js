@@ -22,7 +22,7 @@ router.get("/signup", isLoggedOut, (req, res) => {
 });
 
 // POST /auth/signup
-router.post("/signup", isLoggedOut, fileUploader.array('profile-images', 2), (req, res, next) => {
+router.post("/signup", isLoggedOut, fileUploader.single('profile-pic'), (req, res, next) => {
   const { username, email, password } = req.body;
 
   // Check that username, email, and password are provided
@@ -56,13 +56,15 @@ router.post("/signup", isLoggedOut, fileUploader.array('profile-images', 2), (re
   }
   */
 
+  const userIconImgUrl = req.file.path;
+
   // Create a new user - start by hashing the password
   bcrypt
     .genSalt(saltRounds)
     .then((salt) => bcrypt.hash(password, salt))
     .then((hashedPassword) => {
       // Create a user and save it in the database
-      return User.create({ username, email, password: hashedPassword, userIconImgUrl: req.files[0].path, bannerImgUrl: req.files[1].path });
+      return User.create({ username, email, password: hashedPassword, userIconImgUrl });
     })
     .then((user) => {
       res.redirect("/auth/login");

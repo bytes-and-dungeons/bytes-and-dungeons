@@ -31,6 +31,7 @@ const userSchema = new Schema(
     bannerImgUrl: {
       type: String,
       required: true,
+      default: '/images/banner.png'
     }
   },
   {
