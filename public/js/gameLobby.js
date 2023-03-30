@@ -30,7 +30,9 @@ const enemyCharStrengthElm = document.querySelector('#enemy-char .strength');
 const enemyCharDefenseElm = document.querySelector('#enemy-char .defense');
 
 
-socket.on("connection");
+socket.on("connection", () => {
+    console.log(socket.id);
+});
 
 socket.emit("createGameSession", charId);
 
@@ -66,8 +68,6 @@ socket.on("loadChar", (charOne, charTwo, game) => {
     enemyCharHealthElm.innerText = enemyChar.healthPoints;
     enemyCharStrengthElm.innerText = enemyChar.strength;
     enemyCharDefenseElm.innerText = enemyChar.defense;
-
-    console.log(socket.id);
 
     socket.emit("gameBeginRound", game);
     
