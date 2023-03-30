@@ -2,8 +2,11 @@ const app = require("./app");
 
 const server = require("http").createServer(app);
 
-const io = require("socket.io")(server, 
-  {cors: {origin: "*"},
+const io = require('socket.io')(server, {
+  pingTimeout: 120000, // 30 seconds
+  transports: ['websocket'],
+  allowUpgrades: true,
+  cors: {origin: "*"}
 });
 
 const Character = require("./models/Character.model");

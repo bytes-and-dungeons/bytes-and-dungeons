@@ -1,10 +1,6 @@
 const socket = io({
-    transports: ['websocket'],
-    upgrade: false,
-    extraHeaders: {
-      'Connection': 'keep-alive'
-    }
-  });
+    timeout: 120000 // 10 seconds
+});
 
 const charId = document.getElementById("char-id").innerText;
 const userId = document.getElementById("user-id").innerText;
