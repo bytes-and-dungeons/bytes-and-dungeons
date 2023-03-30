@@ -275,7 +275,7 @@ io.on("connection", (socket) => {
 
       await GameSession.findByIdAndUpdate(myGameSession._id, {socketId: newSocketId}, {new: true});
 
-      const myGame = Game.findOne( { $or: [ { playerOneSocketId: myOldSocketId }, { playerTwoSocketId: myOldSocketId } ] } );
+      const myGame = await Game.findOne( { $or: [ { playerOneSocketId: myOldSocketId }, { playerTwoSocketId: myOldSocketId } ] } );
 
       if(myGame) {
         
