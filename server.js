@@ -277,20 +277,26 @@ io.on("connection", (socket) => {
 
       const myGame = Game.findOne( { $or: [ { playerOneSocketId: myOldSocketId }, { playerTwoSocketId: myOldSocketId } ] } );
 
-      if(myGame.playerOneSocketId === myOldSocketId) {
-        await Game.findByIdAndUpdate(myGame._id, {playerOneSocketId: newSocketId});
+      if(myGame) {
+        
+        if(myGame.playerOneSocketId === myOldSocketId) {
+          await Game.findByIdAndUpdate(myGame._id, {playerOneSocketId: newSocketId});
+        } else {
+          await Game.findByIdAndUpdate(myGame._id, {playerTwoSocketId: newSocketId});
+        }
+  
+        socket.join(`${myGame.gameRoom}`);
+  
+        if(io.sockets.adapter.rooms.get(`${myGame.gameRoom}`).size === 2) {
+          io.to(`${myGame.gameRoom}`).emit("beginNewRound", myGame);
+        }
+
       } else {
-        await Game.findByIdAndUpdate(myGame._id, {playerTwoSocketId: newSocketId});
+        socket.join("lobby");
       }
 
-      socket.join(`${myGame.gameRoom}`);
-
-      if(io.sockets.adapter.rooms.get(`${myGame.gameRoom}`).size === 2) {
-        io.to(`${myGame.gameRoom}`).emit("beginNewRound", myGame);
-      }
-
-    } catch {
-      socket.join("lobby");
+    } catch (err) {
+      console.log(err);
     }
   });
 
