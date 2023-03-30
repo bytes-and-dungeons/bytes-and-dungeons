@@ -120,17 +120,17 @@ router.post("/:charId/edit", isLoggedIn, isOwner, fileUploader.single('char-new-
 router.post("/:charId/upgrade", isLoggedIn, isOwner, (req, res, next) => {
     const { charId }  = req.params;
 
-    let {healthPoints, strengthPoints, defensePoints} = req.body;
+    let {healthPoints, strength, defense} = req.body;
     healthPoints = parseInt(healthPoints);
-    defensePoints = parseInt(defensePoints);
-    strengthPoints = parseInt(strengthPoints);
+    defense = parseInt(defense);
+    strength = parseInt(strength);
     
     Character.findById(charId)
         .then((character) => {
             
-            if((healthPoints + strengthPoints + defensePoints) <= character.experiencePoints) {
+            if((healthPoints + strength + defense) <= character.experiencePoints) {
 
-                const newCharacterData = calculateUpgradedAttributes(character, healthPoints, strengthPoints, defensePoints);
+                const newCharacterData = calculateUpgradedAttributes(character, healthPoints, strength, defense);
                 
                 return Character.findByIdAndUpdate(charId, newCharacterData, {new: true});
 
