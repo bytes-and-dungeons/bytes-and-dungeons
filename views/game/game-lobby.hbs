@@ -1,4 +1,55 @@
-<h2>Game Lobby</h2>
+<div id="loading-page" class="">
+     <div class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <h2>loading</h2>
+    </div>
+    <h3 id="char-id">{{charId}}</h3>
+</div>
 
+<div id="game-page" class="visually-hidden">
+    <h1>GAME</h1>
+    <h3 id="user-id">{{userId}}</h3>
+
+    <h2>YOUR CHARACTER:</h2>
+    <h2 id="player"></h2>
+    <div id="my-char">
+        <h2 class="name"></h2>
+        <h2 class="health"></h2>
+        <h2 class="strength"></h2>
+        <h2 class="defense"></h2>
+    </div>
+
+    <hr />
+
+    <h2>REPORT FROM LAST ROUND</h2>
+    <h3 id="message">GAME START</h3>
+
+    <h2>ACTIONS</h2>
+    <div id="btn-menu">
+        
+    </div>
+
+    <hr />
+
+    <h2>ENEMY CHARACTER:</h2>
+    <h2 id="enemy"></h2>
+    <div id="enemy-char">
+        <h2 class="name"></h2>
+        <h2 class="health"></h2>
+        <h2 class="strength"></h2>
+        <h2 class="defense"></h2>
+    </div>
+</div>
+
+<div id="game-over" class="visually-hidden">
+    <h1>Result:</h1>
+    <h1 id="result"></h1>
+    <form action="/characters" method="GET">
+        <button type="submit">Exit Game</button>
+    </form>
+</div>
+<h2>Game Lobby</h2>
 
 <script src="/js/gameLobby.js"></script>

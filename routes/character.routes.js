@@ -10,7 +10,6 @@ const calculateUpgradedAttributes = require('../utils/calculateUpgradedAttribute
 const fileUploader = require('../config/cloudinary.config');
 
 const Character = require('../models/Character.model');
-const User = require("../models/User.model");
 
 
 //GET /characters
