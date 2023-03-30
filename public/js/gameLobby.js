@@ -1,5 +1,6 @@
 const socket = io({
-    timeout: 120000 // 10 seconds
+    timeout: 120000,
+    transports: ['websocket'] // 10 seconds
 });
 
 const charId = document.getElementById("char-id").innerText;
