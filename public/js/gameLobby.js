@@ -1,4 +1,4 @@
-const socket = io(`http://localhost:${PORT}`);
+const socket = io();
 
 const charId = document.getElementById("char-id").innerText;
 const userId = document.getElementById("user-id").innerText;
