@@ -9,38 +9,83 @@
     <h3 id="char-id">{{charId}}</h3>
 </div>
 
-<div id="game-page" class="visually-hidden">
-    <h1>GAME</h1>
-    <h3 id="user-id">{{userId}}</h3>
+<div id="game-page" class="container visually-hidden">
+    <h3 id="user-id" class="visually-hidden">{{userId}}</h3>
+    <div class="row">
+        <div class="card mx-auto mb-3 h-100 shadow-lg">
+            <h2 class="card-header text-center" id="player"></h2>
+            <div class="card-body">
+                <div id="my-char">
+                    <p>
+                        <strong>
+                            ⚔️ Fighting With:
+                        </strong>
+                        <span class="name"></span>
+                    </p>
+                    <p>
+                        <strong>
+                            ❤️ Health:
+                        </strong>
+                        <span class="health"></span>
+                    </p>
+                    <p>
+                        <strong>
+                            💪🏻 Strength:
+                        </strong>
+                        <span class="strength"></span>
+                    </p>
+                    <p>
+                        <strong>
+                            🛡️ Defense:
+                        </strong>
+                        <span class="defense"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card mx-auto mb-3 h-100 shadow-lg text-center">
+            <div class="card-body">
+                <p class="font-weight-bold">🏹REPORT FROM LAST ROUND⚔️</p>
+                <h5 id="message">BATTLE STARTED!</h3>
 
-    <h2>YOUR CHARACTER:</h2>
-    <h2 id="player"></h2>
-    <div id="my-char">
-        <h2 class="name"></h2>
-        <h2 class="health"></h2>
-        <h2 class="strength"></h2>
-        <h2 class="defense"></h2>
-    </div>
+                    <hr />
+                    <h2>ACTIONS</h2>
+                    <div id="btn-menu">
 
-    <hr />
-
-    <h2>REPORT FROM LAST ROUND</h2>
-    <h3 id="message">GAME START</h3>
-
-    <h2>ACTIONS</h2>
-    <div id="btn-menu">
-
-    </div>
-
-    <hr />
-
-    <h2>ENEMY CHARACTER:</h2>
-    <h2 id="enemy"></h2>
-    <div id="enemy-char">
-        <h2 class="name"></h2>
-        <h2 class="health"></h2>
-        <h2 class="strength"></h2>
-        <h2 class="defense"></h2>
+                    </div>
+            </div>
+        </div>
+        <div class="card mx-auto mb-3 h-100 shadow-lg">
+            <h2 class="card-header text-center" id="enemy"></h2>
+            <div class="card-body">
+                <div id="enemy-char">
+                    <p>
+                        <strong>
+                            ⚔️ Fighting With:
+                        </strong>
+                        <span class="name"></span>
+                    </p>
+                    <p>
+                        <strong>
+                            ❤️ Health:
+                        </strong>
+                        <span class="health"></span>
+                    </p>
+                    <p>
+                        <strong>
+                            💪🏻 Strength:
+                        </strong>
+                        <span class="strength"></span>
+                    </p>
+                    <p>
+                        <strong>
+                            🛡️ Defense:
+                        </strong>
+                        <span class="defense"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

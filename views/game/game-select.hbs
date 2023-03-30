@@ -1,31 +1,31 @@
-<h1>Select One of your Characters to Play!</h1>
+<h1 class="text-center mb-5">Select One of your Characters to Play!</h1>
 
-{{#each character}}
+<div class="container">
+    <div class="row">
+        {{#each character}}
+        <div class="card mx-auto mb-3 h-100 shadow-lg">
+            <h3 class="card-header mb-2 border-0 rounded bg-success text-center">
+                {{this.name}}
+                <span class="badge bg-secondary">{{this.characterClass}}</span>
+            </h3>
+            <img class="card-img-top" src="{{this.charImgUrl}}" alt="Char Img" width="100" height="300">
+            <div class="card-body">
+                <h4 class="card-text">🎲 Level: {{this.level}}</h4>
+                <h4>Attributes:</h4>
+                <hr>
+                <h4 class="card-text">❤️ Health: {{this.healthPoints}}</h4>
+                <h4 class="card-text">💪🏻 Strength: {{this.strength}}</h4>
+                <h4 class="card-text">🛡️ Defense: {{this.defense}}</h4>
+                <h4 class="card-text">⭐ Exp. Points: {{this.experiencePoints}}</h4>
 
-<p><strong>Name: </strong>{{this.name}}</p>
-
-<p><strong>Class: </strong>{{this.characterClass}}</p>
-
-<p><strong>Level: </strong>{{this.level}}</p>
-
-<p><strong>Description: </strong>{{this.description}}</p>
-<hr>
-
-<h2>Attributes:</h2>
-
-<p><strong>Health Points: </strong>{{this.healthPoints}}</p>
-
-<p><strong>Strength: </strong>{{this.strength}}</p>
-
-<p><strong>Defense: </strong>{{this.defense}}</p>
-
-<p><strong>Experience Points: </strong>{{this.experiencePoints}}</p>
-
-<form action="/game" method="POST">
-    <input type="text" name="charId" value={{this._id}} class="hidden">
-    <button type="submit">Choose!</button>
-</form>
-
-{{else}}
-<h3>You don't Have Any Characters!</h3>
-{{/each}}
+                <form action="/game" method="POST">
+                    <input type="text" name="charId" value={{this._id}} class="hidden">
+                    <button type="submit btn btn-success">CHOOSE!</button>
+                </form>
+            </div>
+        </div>
+        {{else}}
+        <h3 class="text-center bg-danger">You don't Have Any Characters!</h3>
+        {{/each}}
+    </div>
+</div>

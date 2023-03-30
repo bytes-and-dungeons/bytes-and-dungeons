@@ -1,4 +1,5 @@
-const socket = io("http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+const socket = io(`http://localhost:${PORT}`);
 
 const charId = document.getElementById("char-id").innerText;
 const userId = document.getElementById("user-id").innerText;
@@ -72,9 +73,9 @@ socket.on("loadChar", (charOne, charTwo, game) => {
 
 socket.on("runRound", game => {
     
-    btnMenuElm.innerHTML = `<button id="attack-btn">ATTACK</button>
-    <button id="spell-btn">SPELL</button>
-    <button id="defense-btn">DEFENSE</button>`;
+    btnMenuElm.innerHTML = `<button id="attack-btn" class="btn btn-warning">ATTACK</button>
+    <button id="spell-btn" class="btn btn-success">SPELL</button>
+    <button id="defense-btn" class="btn btn-primary">DEFENSE</button>`;
 
     const attackBtn = document.getElementById("attack-btn");
     const defenseBtn = document.getElementById('defense-btn');
