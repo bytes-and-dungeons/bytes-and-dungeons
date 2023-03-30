@@ -14,7 +14,18 @@ const Character = require('../models/Character.model');
 
 //GET /characters
 router.get("/", (req, res, next) => {
-    Character.find()
+
+    const {characterClass}  = req.query;
+    let filter;
+
+    if(!characterClass || characterClass === "seeAll"){
+        filter ={};
+    } else {
+        filter = {characterClass};
+    }
+
+    Character.find(filter)
+        .sort([["updatedAt", -1]])
         .populate("owner")
         .then((charactersArr) => {
             res.render("characters/characters-list", {character: charactersArr});
@@ -87,7 +98,7 @@ router.post("/create", isLoggedIn, fileUploader.single('char-img'), (req, res, n
 
     Character.create(newCharacterData)
         .then(() => {
-            res.redirect("/characters")
+            res.redirect("/user-profile");
         }).catch((err) => {
             next(err);
         });
@@ -98,17 +109,24 @@ router.post("/create", isLoggedIn, fileUploader.single('char-img'), (req, res, n
 router.post("/:charId/edit", isLoggedIn, isOwner, fileUploader.single('char-new-img'), (req, res, next) => {
     const { charId }  = req.params;
 
-    const {name, description} = req.body;
+    const {name, description, existingCharImage} = req.body;
+
+    let charImgUrl;
+    if(req.file) {
+        charImgUrl = req.file.path;
+    } else {
+        charImgUrl = existingCharImage;
+    }
 
     const newCharacterData = {
         name,
         description,
-        charImgUrl: req.file.path
+        charImgUrl
     };
 
     Character.findByIdAndUpdate(charId, newCharacterData, {new: true})
         .then(() => {
-            res.redirect('/characters')
+            res.redirect('/user-profile');
         })
         .catch(err => {
             next(err);

@@ -5,17 +5,19 @@
 
         <div class="mb-3">
           <label class="form-label">Name:</label>
-          <input type="text" name="name" class="form-control" placeholder="New name">
+          <input type="text" name="name" class="form-control" placeholder="New name" value="{{character.name}}">
         </div>
 
         <div class="mb-3">
           <label class="form-label">Description:</label>
-          <input type="text" name="description" class="form-control" placeholder="New description">
+          <input type="text" name="description" class="form-control" placeholder="New description"
+            value="{{character.description}}">
         </div>
 
         <div>
           <label class="form-label">New Image:</label>
           <input type="file" name="char-new-img" class="form-control">
+          <input type="text" name="existingCharImage" hidden value="{{character.charImgUrl}}">
         </div>
 
         <div class="text-center mb-3 mt-3">

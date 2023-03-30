@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const User = require("../models/User.model");
+const Character = require("../models/Character.model");
+
 const fileUploader = require('../config/cloudinary.config');
 
 // GET /user-profile
@@ -9,7 +11,19 @@ router.get("/", (req, res, next) => {
 
   const userData = req.session.currentUser;
 
-  res.render("user/user-profile", {user: userData});
+  const filter = {
+      owner: req.session.currentUser._id,
+  };
+
+  Character.find(filter)
+    .sort([["updatedAt", -1]])
+    .then((charArr) => {
+        res.render("user/user-profile", {user: userData, character: charArr});
+    })
+    .catch((err) => {
+        next(err);
+    });
+
 });
 
 // GET /user-profile/edit

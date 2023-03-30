@@ -18,9 +18,9 @@
                 <h4 class="card-text">🛡️ Defense: {{this.defense}}</h4>
                 <h4 class="card-text">⭐ Exp. Points: {{this.experiencePoints}}</h4>
 
-                <form action="/game" method="POST">
-                    <input type="text" name="charId" value={{this._id}} class="hidden">
-                    <button type="submit btn btn-success">CHOOSE!</button>
+                <form action="/game" method="POST" class="text-center mt-3">
+                    <input type="text" name="charId" value={{this._id}} class="visually-hidden">
+                    <button type="submit" class="btn btn-success">CHOOSE!</button>
                 </form>
             </div>
         </div>

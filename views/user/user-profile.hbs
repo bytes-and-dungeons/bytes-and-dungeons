@@ -20,3 +20,39 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<div class="container mt-5">
+    <div class="row">
+
+        <h2>YOUR CHARACTERS:</h2>
+        <hr>
+
+        {{#each character}}
+
+        <div class="card mx-auto mb-3 h-100 shadow-lg">
+            <h3 class="card-header mb-2 border-0 rounded bg-danger text-center">
+                {{this.name}}
+                <span class="badge bg-secondary">{{this.characterClass}}</span>
+            </h3>
+            <img class="card-img-top" src="{{this.charImgUrl}}" alt="Card image" width="100" height="300">
+            <div class="card-body">
+                <h4 class="card-text">🎲 Level: {{this.level}}</h4>
+                <h4 class="card-text">🕵🏻‍♂️ Owner: {{this.owner.username}}</p>
+                    <div class="text-center">
+                        <a href="/characters/{{this._id}}" class="btn btn-success mb-3">See Details</a>
+                    </div>
+            </div>
+        </div>
+
+        {{else}}
+
+        No characters in DB.
+
+        {{/each}}
+
+    </div>
+</div>

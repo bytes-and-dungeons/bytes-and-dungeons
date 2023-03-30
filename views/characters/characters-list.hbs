@@ -1,9 +1,31 @@
 <div class="container">
-    <header class="pb-3 mb-4 border-bottom">
-        <a href="/characters" class="d-flex align-items-center text-dark text-decoration-none">
-            <span class="fs-4">Character Gallery</span>
-        </a>
-    </header>
+    <div class="row">
+        <header class="pb-3 mb-4 col-10">
+            <a href="/characters" class="d-flex align-items-center text-dark text-decoration-none">
+                <span class="fs-4">Character Gallery</span>
+            </a>
+        </header>
+        <div class="col-2 d-flex justify-content-end inline">
+            <form action="/characters" method="GET" class="row">
+                <div class="col-10">
+                    <select class="form-select" name="characterClass">
+                        <option disabled selected hidden>
+                            Search
+                        </option>
+                        <option value="Bard">Bard</option>
+                        <option value="Fighter">Fighter</option>
+                        <option value="Wizard">Wizard</option>
+                        <option value="seeAll">See All</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-secondary m-0 p-2" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div class="p-5 mb-4 bg-dark-subtle rounded-3">
         <div class="container-fluid">
