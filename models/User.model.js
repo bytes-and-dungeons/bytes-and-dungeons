@@ -26,11 +26,11 @@ const userSchema = new Schema(
     },
     userIconImgUrl: {
       type: String,
-      required: true
+      required: true,
     },
     bannerImgUrl: {
       type: String,
-      required: true
+      required: true,
     }
   },
   {

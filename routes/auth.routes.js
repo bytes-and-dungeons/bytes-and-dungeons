@@ -22,7 +22,7 @@ router.get("/signup", isLoggedOut, (req, res) => {
 });
 
 // POST /auth/signup
-router.post("/signup", isLoggedOut, fileUploader.array('profile-images', 2), (req, res) => {
+router.post("/signup", isLoggedOut, fileUploader.array('profile-images', 2), (req, res, next) => {
   const { username, email, password } = req.body;
 
   // Check that username, email, and password are provided

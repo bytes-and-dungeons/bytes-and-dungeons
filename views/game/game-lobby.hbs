@@ -1,9 +1,10 @@
 <div id="loading-page" class="">
-     <div class="text-center">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <h2>loading</h2>
+    <div class="text-center">
+        <div id="preloader">
+            <div id="loader"></div>
+            <h2>Waiting for another player to join the room...</h2>
+        </div>
+
     </div>
     <h3 id="char-id">{{charId}}</h3>
 </div>
@@ -28,7 +29,7 @@
 
     <h2>ACTIONS</h2>
     <div id="btn-menu">
-        
+
     </div>
 
     <hr />
@@ -50,6 +51,5 @@
         <button type="submit">Exit Game</button>
     </form>
 </div>
-<h2>Game Lobby</h2>
 
 <script src="/js/gameLobby.js"></script>
