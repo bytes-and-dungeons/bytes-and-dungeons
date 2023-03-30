@@ -53,7 +53,6 @@ io.on("connection", (socket) => {
     };
   });
 
-
   socket.on("initializeGame", async (gameRoom) => {
 
     socket.join(`${gameRoom}`);
@@ -236,12 +235,12 @@ io.on("connection", (socket) => {
       let newExpPoints;
       
       if(winnerSocketId === socket.id) {
-        newExpPoints = playersCharacter.experiencePoints + 3;
+        newExpPoints = playersCharacter.experiencePoints + 2;
       } else {
-        newExpPoints = playersCharacter.experiencePoints + 1;
+        newExpPoints = playersCharacter.experiencePoints;
       }
 
-      const updatedCharacter = await Character.findByIdAndUpdate(playersCharacter._id, {experiencePoints: newExpPoints}, {new: true});
+      await Character.findByIdAndUpdate(playersCharacter._id, {experiencePoints: newExpPoints}, {new: true});
 
 
       //Update the state of the players in the game document
@@ -298,6 +297,34 @@ io.on("connection", (socket) => {
     } catch (err) {
       console.log(err);
     }
+  });
+
+  socket.on("disconnect", () => {    
+    
+    setTimeout(async () => {
+
+      const socketGameSession = await GameSession.findOne({socketId: socket.id});
+
+      if(socketGameSession){
+        
+        if(socket.id === socketGameSession.socketId) {
+          await GameSession.findByIdAndDelete(socketGameSession._id);
+          
+          const myGame = await Game.findOne( { $or: [ { playerOneSocketId: socket.id }, { playerTwoSocketId: socket.id } ] } );
+  
+          if(myGame) {
+  
+            if(myGame.playerOneSocketId === socket.id) {
+              await Game.findByIdAndUpdate(myGame._id, {playerOneLeft: true}, {new: true});
+              io.to(`${myGame.gameRoom}`).emit("gameOver", myGame.playerTwoSocketId, myGame);
+            } else {
+              await Game.findByIdAndUpdate(myGame._id, {playerTwoLeft: true}, {new: true});
+              io.to(`${myGame.gameRoom}`).emit("gameOver", myGame.playerOneSocketId, myGame);
+            }
+          }
+        }
+      }
+    }, 5000);
   });
 
 });
