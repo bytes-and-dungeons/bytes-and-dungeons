@@ -8,23 +8,30 @@
 
         <div class="user text-center">
             <div class="profile">
-                <img src="/images/profilepic.png" alt="Profile Img" />
+                <img src="{{user.userIconImgUrl}}" alt="Profile Img" />
             </div>
         </div>
 
-        <form action="/user-profile/edit" method="POST" class="text-center mt-5">
+        <form action="/user-profile/edit" method="POST" enctype="multipart/form-data" class="text-center mt-5">
 
-            <label class="form-label">Username:
-                <input type="text" name="username" value="{{user.username}}" class="form-control">
-            </label>
+            <div class="form-floating mb-3">
+                <input type="text" name="username" id="floatingInput" value="{{user.username}}" class="form-control">
+                <label>Username:</label>
+            </div>
 
-            <label class="form-label">Email:
-                <input type="text" name="email" value="{{user.email}}" class="form-control">
-            </label>
+            <div class="form-floating">
+                <input type="text" name="email" id="floatingInput" value="{{user.email}}" class="form-control">
+                <label>Email:</label>
+            </div>
+
+            <div class="mt-4">
+                <input type="file" name="profile-picture" class="form-control-file" />
+                <input type="text" name="existingProfileImage" hidden value="{{user.userIconImgUrl}}">
+            </div>
 
             <br />
 
-            <button type="submit" class="btn btn-info mt-3">Submit</button>
+            <button type="submit" class="btn btn-info mt-5">Submit</button>
 
         </form>
     </div>

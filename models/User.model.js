@@ -24,6 +24,13 @@ const userSchema = new Schema(
       type: [Schema.Types.ObjectId],
       ref: "Character",
     },
+    userIconImgUrl: {
+      type: String,
+      required: true,
+    },
+    bannerImgUrl: {
+      type: String,
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

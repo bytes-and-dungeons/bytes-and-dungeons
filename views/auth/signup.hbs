@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <form action="/auth/signup" method="POST">
+      <form action="/auth/signup" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
           <label class="form-label">Username:</label>
           <input type="text" name="username" class="form-control" placeholder="Your username"
@@ -15,11 +15,21 @@
           <div id="emailHelp" class="form-text">We won't share your email with anyone.</div>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label">Password:</label>
+        <div class="mb-3 custom-file">
+          <label class="custom-file-label">Password:</label>
           <input type="password" name="password" class="form-control" placeholder="Your password"
             aria-describedby="passwordHelp">
           <div id="passwordHelp" class="form-text">Don't forget this one!!!</div>
+        </div>
+
+        <div class="mb-3">
+          <label>Add your profile pic:</label>
+          <input type="file" name="profile-picture">
+        </div>
+
+        <div class="mb-3">
+          <label>Add your banner:</label>
+          <input type="file" name="banner-picture">
         </div>
 
         <div class="text-center">
