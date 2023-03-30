@@ -30,7 +30,7 @@ router.get("/lobby", (req, res, next) => {
     delete req.session.charId;
     const userId = req.session.currentUser._id.toString();
 
-    res.render("game/game-lobby", {charId, userId});
+    res.render("game/game-lobby", {charId, userId, wsPort: process.env.PORT});
 });
 
 
