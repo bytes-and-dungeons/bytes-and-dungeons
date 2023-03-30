@@ -30,11 +30,14 @@ const enemyCharStrengthElm = document.querySelector('#enemy-char .strength');
 const enemyCharDefenseElm = document.querySelector('#enemy-char .defense');
 
 
+socket.emit("createGameSession", charId);
+
+
 socket.on("connect", () => {
     console.log(socket.id);
+    socket.emit("checkGame", socket.id, charId);
 });
 
-socket.emit("createGameSession", charId);
 
 socket.on("changeRoom", gameRoom => {
     socket.emit("initializeGame", gameRoom);

@@ -92,12 +92,9 @@
 <div id="game-over" class="visually-hidden">
     <h1>Result:</h1>
     <h1 id="result"></h1>
-    <form action="/characters" method="GET">
+    <form action="/user-profile" method="GET">
         <button type="submit">Exit Game</button>
     </form>
 </div>
 
-<script>
-    const PORT = {{ wsPort }};
-</script>
 <script src="/js/gameLobby.js"></script>

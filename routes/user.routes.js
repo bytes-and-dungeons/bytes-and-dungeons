@@ -17,6 +17,7 @@ router.get("/", (req, res, next) => {
 
   Character.find(filter)
     .sort([["updatedAt", -1]])
+    .populate("owner")
     .then((charArr) => {
         res.render("user/user-profile", {user: userData, character: charArr});
     })

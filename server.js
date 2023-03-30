@@ -266,8 +266,32 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("disconnect", (reason) => {
-    console.log("Server Disconnected: " + reason);
+  socket.on("checkGame", async (newSocketId, charId) => {
+
+    try {
+      const myGameSession = await GameSession.findOne({selectedCharacter: charId});
+
+      const myOldSocketId = myGameSession.socketId;
+
+      await GameSession.findByIdAndUpdate(myGameSession._id, {socketId: newSocketId}, {new: true});
+
+      const myGame = Game.findOne( { $or: [ { playerOneSocketId: myOldSocketId }, { playerTwoSocketId: myOldSocketId } ] } );
+
+      if(myGame.playerOneSocketId === myOldSocketId) {
+        await Game.findByIdAndUpdate(myGame._id, {playerOneSocketId: newSocketId});
+      } else {
+        await Game.findByIdAndUpdate(myGame._id, {playerTwoSocketId: newSocketId});
+      }
+
+      socket.join(`${myGame.gameRoom}`);
+
+      if(io.sockets.adapter.rooms.get(`${myGame.gameRoom}`).size === 2) {
+        io.to(`${myGame.gameRoom}`).emit("beginNewRound", myGame);
+      }
+
+    } catch {
+      socket.join("lobby");
+    }
   });
 
 });
