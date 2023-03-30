@@ -23,6 +23,9 @@
 
     <hr />
 
+    <h2>REPORT FROM LAST ROUND</h2>
+    <h3 id="message">GAME START</h3>
+
     <h2>ACTIONS</h2>
     <div id="btn-menu">
         
@@ -38,6 +41,14 @@
         <h2 class="strength"></h2>
         <h2 class="defense"></h2>
     </div>
+</div>
+
+<div id="game-over" class="visually-hidden">
+    <h1>Result:</h1>
+    <h1 id="result"></h1>
+    <form action="/characters" method="GET">
+        <button type="submit">Exit Game</button>
+    </form>
 </div>
 
 <script src="/js/gameLobby.js"></script>

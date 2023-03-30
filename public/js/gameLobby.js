@@ -4,9 +4,12 @@ const charId = document.getElementById("char-id").innerText;
 const userId = document.getElementById("user-id").innerText;
 const loadingPageElm = document.getElementById('loading-page');
 const gamePageElm = document.getElementById('game-page');
+const gameOverPageElm = document.getElementById('game-over');
 
-// button element
+// button and message element
 const btnMenuElm = document.getElementById('btn-menu');
+const msgElm = document.getElementById('message');
+const resultElm = document.getElementById('result');
 
 
 // player variables
@@ -106,9 +109,26 @@ socket.on("runRound", game => {
 
     // enemy health
     enemyCharHealthElm.innerText = enemyChar.health;
+
+    
     
 });
 
 socket.on("beginNewRound", game => {
+    msgElm.innerText = game.message;
     socket.emit("gameBeginRound", game);
+});
+
+socket.on("gameOver", (winnerSocketId, game) => {
+
+    socket.emit("destroyGame", game, winnerSocketId);
+
+    gamePageElm.classList.add('visually-hidden');
+    gameOverPageElm.classList.remove('visually-hidden');
+
+    if(winnerSocketId === socket.id) {
+        resultElm.innerText = "YOU WIN!!!"
+    } else {
+        resultElm.innerText = "YOU LOSE!!!"
+    }
 });

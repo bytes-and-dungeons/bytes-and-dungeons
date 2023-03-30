@@ -42,6 +42,14 @@ const gameSchema = new Schema(
     },
     message: {
       type: String,
+    },
+    playerOneLeft: {
+      type: Boolean,
+      default: false
+    },
+    playerTwoLeft: {
+      type: Boolean,
+      default: false
     }
   },
   {

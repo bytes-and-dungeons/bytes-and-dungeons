@@ -185,9 +185,9 @@ io.on("connection", (socket) => {
   
         
         if(playerOneNewHealth <= 0) {
-          io.to(`${game.gameRoom}`).emit("gameOver", game.playerTwoSocketId);
+          io.to(`${game.gameRoom}`).emit("gameOver", game.playerTwoSocketId, game);
         } else if (playerTwoNewHealth <= 0) {
-          io.to(`${game.gameRoom}`).emit("gameOver", game.playerOneSocketId);
+          io.to(`${game.gameRoom}`).emit("gameOver", game.playerOneSocketId, game);
         } else {
           
           const updatedData = {
@@ -216,6 +216,48 @@ io.on("connection", (socket) => {
       console.error(err);
     }
     
+  });
+
+  socket.on("destroyGame", async (game, winnerSocketId) => {
+    try{
+
+      //Update Player's Character in the database
+      const playersGameSession = await GameSession.findOne({socketId: socket.id});
+      const playersCharacter = await Character.findById(playersGameSession.selectedCharacter);
+      let newExpPoints;
+      
+      if(winnerSocketId === socket.id) {
+        newExpPoints = playersCharacter.experiencePoints + 3;
+      } else {
+        newExpPoints = playersCharacter.experiencePoints + 1;
+      }
+
+      const updatedCharacter = await Character.findByIdAndUpdate(playersCharacter._id, {experiencePoints: newExpPoints}, {new: true});
+
+
+      //Update the state of the players in the game document
+      let updatedGame;
+      
+      if(game.playerOneSocketId === socket.id) {
+        updatedGame = await Game.findByIdAndUpdate(game._id, {playerOneLeft: true}, {new: true});
+      } else {
+        updatedGame = await Game.findByIdAndUpdate(game._id, {playerTwoLeft: true}, {new: true});
+      }
+      
+      //Delete player's game session on the data base
+      await GameSession.findOneAndDelete({socketId: socket.id});
+      
+      //Check if all players exited
+      if(updatedGame.playerOneLeft && updatedGame.playerTwoLeft) {
+        console.log("Both players left!");
+        await Game.findByIdAndDelete(updatedGame._id);
+      }
+
+
+
+    } catch (err) {
+      console.error(err);
+    }
   });
 
 });
