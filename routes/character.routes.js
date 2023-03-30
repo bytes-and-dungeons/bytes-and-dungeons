@@ -7,6 +7,8 @@ const checkOwnership = require("../utils/checkOwnership");
 const createCharacter = require("../utils/createCharacter");
 const calculateUpgradedAttributes = require('../utils/calculateUpgradedAttributes');
 
+const fileUploader = require('../config/cloudinary.config');
+
 const Character = require('../models/Character.model');
 
 
@@ -76,10 +78,12 @@ router.get("/:charId/upgrade", isLoggedIn, isOwner, (req, res, next) => {
 
 
 // POST /characters/create
-router.post("/create", isLoggedIn, (req, res, next) => {
+router.post("/create", isLoggedIn, fileUploader.single('char-img'), (req, res, next) => {
     const {name, characterClass, description} = req.body;
 
-    const newCharacterData = createCharacter(req.session.currentUser._id, name, description, characterClass);
+    const charImgUrl = req.file.path;
+
+    const newCharacterData = createCharacter(req.session.currentUser._id, name, description, characterClass, charImgUrl);
 
     Character.create(newCharacterData)
         .then(() => {
@@ -91,14 +95,15 @@ router.post("/create", isLoggedIn, (req, res, next) => {
 
 
 //POST /characters/:charId/edit
-router.post("/:charId/edit", isLoggedIn, isOwner, (req, res, next) => {
+router.post("/:charId/edit", isLoggedIn, isOwner, fileUploader.single('char-new-img'), (req, res, next) => {
     const { charId }  = req.params;
 
     const {name, description} = req.body;
 
     const newCharacterData = {
         name,
-        description
+        description,
+        charImgUrl: req.file.path
     };
 
     Character.findByIdAndUpdate(charId, newCharacterData, {new: true})
@@ -132,7 +137,7 @@ router.post("/:charId/upgrade", isLoggedIn, isOwner, (req, res, next) => {
             } else {
                 req.session.error = "You tried to use more Experience Points than you currently have."
                 res.redirect(`/characters/${charId}/upgrade`);
-            }
+            } 
             
         })
         .then(() => {

@@ -6,6 +6,7 @@ const characterSchema = new Schema(
     name: {
       type: String,
       required: true,
+      maxlength: 15
     },
     characterClass: {
       type: String,
@@ -42,6 +43,10 @@ const characterSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    charImgUrl: {
+      type: String,
+      required: true
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

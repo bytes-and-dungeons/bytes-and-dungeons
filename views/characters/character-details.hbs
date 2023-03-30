@@ -1,34 +1,64 @@
-<h2>{{character.name}}</h2>
-
-<p><strong>Owner: </strong>{{character.owner.username}}</p>
-
-<p><strong>Class: </strong>{{character.characterClass}}</p>
-
-<p><strong>Level: </strong>{{character.level}}</p>
-
-<p><strong>Description: </strong>{{character.description}}</p>
-<hr>
-
-<h2>Attributes:</h2>
-
-<p><strong>Health Points: </strong>{{character.healthPoints}}</p>
-
-<p><strong>Strength: </strong>{{character.strength}}</p>
-
-<p><strong>Defense: </strong>{{character.defense}}</p>
-
-<p><strong>Experience Points: </strong>{{character.experiencePoints}}</p>
+<div class="container mt-5 mb-5">
+    <div class="row no-gutters">
+        <div class="col-md-4 col-lg-4"><img id="char-details-img" class="rounded" src="{{character.charImgUrl}}">
+        </div>
+        <div class="col-md-8 col-lg-8">
+            <div class="d-flex flex-column">
+                <div
+                    class="d-flex flex-row justify-content-between align-items-center p-5 bg-light border border-dark rounded mb-2">
+                    <h3 class="display-5">{{character.name}}
+                        <span class="badge bg-secondary">⚔️ {{character.characterClass}}</span>
+                        <span class="badge bg-secondary">{{character.level}}</span>
+                    </h3>
+                    <h4>Owner: {{character.owner.username}}</h4>
+                </div>
+                <div class="p-3 bg-black text-white mb-2 rounded">
+                    <h4>Description: </h4>
+                    <hr>
+                    <h6>{{character.description}}</h6>
+                </div>
+                <div class="d-flex flex-row text-white">
+                    <div class="p-4 bg-primary text-center skill-block rounded-start">
+                        <h4>Health Points ❤️</h4>
+                        <h6>{{character.healthPoints}}</h6>
+                    </div>
+                    <div class="p-4 bg-success text-center skill-block">
+                        <h4>Strength <br />💪🏻</h4>
+                        <h6>{{character.strength}}</h6>
+                    </div>
+                    <div class="p-4 bg-warning text-center skill-block">
+                        <h4>Defense <br> 🛡️</h4>
+                        <h6>{{character.defense}}</h6>
+                    </div>
+                    <div class="p-4 bg-danger text-center skill-block rounded-end">
+                        <h4>Exp. Points <br> ⭐</h4>
+                        <h6>{{character.experiencePoints}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {{#if userIsOwner}}
-<form action="/characters/{{character._id}}/edit" method="GET">
-    <button>EDIT CHARACTER</button>
-</form>
+<div class="text-center">
+    <form action="/characters/{{character._id}}/edit" method="GET">
+        <button class="btn btn-success">EDIT CHARACTER</button>
+    </form>
 
-<form action="/characters/{{character._id}}/delete" method="POST">
-    <button>DELETE</button>
-</form>
+    <form action="/characters/{{character._id}}/delete" method="POST">
+        <button class="btn btn-danger">DELETE</button>
+    </form>
+
+    <a href="/characters/{{character._id}}/upgrade" class="btn btn-warning mb-3">UPGRADE</a>
+</div>
 {{/if}}
 
 {{#if error}}
-<p class="error">{{error}}</p>
-{{/if}}
+<div class="container d-flex justify-content-center">
+    <div class="row">
+        <div class="col-12 center-text">
+            <h3 class="error center-text bg-danger p-3 rounded">{{error}}</h3>
+        </div>
+    </div>
+    {{/if}}

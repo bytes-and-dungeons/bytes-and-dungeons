@@ -40,6 +40,15 @@ router.post("/", (req, res, next) => {
     req.session.charId = req.body.charId;
 
     res.redirect("/game/lobby");
+
+//GET game/
+
+router.get("/", (req, res, next) => {
+   res.render("game/game-lobby");
+});
+
+router.get("/:gameId", (req, res, next) => {
+   res.render("game/game", {user: req.session.currentUser});
 });
 
 module.exports = router;

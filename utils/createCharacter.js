@@ -1,6 +1,6 @@
 const Character = require("../models/Character.model");
 
-module.exports = (ownerId, characterName,  characterDescription, characterClass) => {
+module.exports = (ownerId, characterName,  characterDescription, characterClass, charImgUrl) => {
   const healthPoints = Math.ceil(500 + Math.random() * 250);
   const strength = Math.ceil(15 + Math.random() * 15);
   const defense = Math.ceil(4 + Math.random() * 5);
@@ -15,6 +15,7 @@ module.exports = (ownerId, characterName,  characterDescription, characterClass)
     defense,
     experiencePoint: 0,
     owner: ownerId,
+    charImgUrl
   };
 
   return characterData;

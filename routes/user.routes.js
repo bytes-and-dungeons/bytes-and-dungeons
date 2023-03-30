@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const User = require("../models/User.model");
+const fileUploader = require('../config/cloudinary.config');
 
 // GET /user-profile
 router.get("/", (req, res, next) => {
@@ -19,12 +20,19 @@ router.get("/edit", (req, res, next) => {
 });
 
 // POST /user-profile/edit
-router.post("/edit", (req, res, next) => {
+router.post("/edit", fileUploader.single('profile-picture'), (req, res, next) => {
   const userId = req.session.currentUser._id;
 
-  const { username, email } = req.body;
+  const { username, email, existingProfileImage } = req.body;
 
-  User.findByIdAndUpdate(userId, {username, email}, {new: true})
+  let userIconImgUrl;
+  if(req.file) {
+    userIconImgUrl = req.file.path;
+  } else {
+    userIconImgUrl = existingProfileImage;
+  }
+
+  User.findByIdAndUpdate(userId, {username, email, userIconImgUrl}, {new: true})
     .then((user) => {
       req.session.regenerate(err => {
         if(err) {

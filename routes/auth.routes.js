@@ -14,6 +14,7 @@ const User = require("../models/User.model");
 // Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const fileUploader = require('../config/cloudinary.config');
 
 // GET /auth/signup
 router.get("/signup", isLoggedOut, (req, res) => {
@@ -21,7 +22,7 @@ router.get("/signup", isLoggedOut, (req, res) => {
 });
 
 // POST /auth/signup
-router.post("/signup", isLoggedOut, (req, res) => {
+router.post("/signup", isLoggedOut, fileUploader.array('profile-images', 2), (req, res) => {
   const { username, email, password } = req.body;
 
   // Check that username, email, and password are provided
@@ -61,7 +62,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
     .then((salt) => bcrypt.hash(password, salt))
     .then((hashedPassword) => {
       // Create a user and save it in the database
-      return User.create({ username, email, password: hashedPassword });
+      return User.create({ username, email, password: hashedPassword, userIconImgUrl: req.files[0].path, bannerImgUrl: req.files[1].path });
     })
     .then((user) => {
       res.redirect("/auth/login");

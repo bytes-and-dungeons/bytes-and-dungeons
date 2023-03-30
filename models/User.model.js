@@ -19,6 +19,18 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    ownedCharacters: {
+      type: [Schema.Types.ObjectId],
+      ref: "Character",
+    },
+    userIconImgUrl: {
+      type: String,
+      required: true
+    },
+    bannerImgUrl: {
+      type: String,
+      required: true
     }
   },
   {
