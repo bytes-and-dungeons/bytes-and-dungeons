@@ -30,7 +30,7 @@ const enemyCharStrengthElm = document.querySelector('#enemy-char .strength');
 const enemyCharDefenseElm = document.querySelector('#enemy-char .defense');
 
 
-socket.on("connection", () => {
+socket.on("connect", () => {
     console.log(socket.id);
 });
 
