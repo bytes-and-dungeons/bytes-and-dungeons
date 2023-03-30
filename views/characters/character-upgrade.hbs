@@ -20,21 +20,24 @@
             <form action="/characters/{{character._id}}/upgrade" method="POST">
 
                 <div class="mb-3 bg-primary p-2 rounded">
-                    <label class="form-label">Health Points:</label>
+                    <label class="form-label">Health Points: <strong>{{character.healthPoints}}</strong></label>
                     <p>❤️</p>
-                    <input type="text" name="healthPoints" class="form-control" placeholder="New health points..." value="0">
+                    <input type="text" name="healthPoints" class="form-control" placeholder="New health points..."
+                        value="0">
                 </div>
 
                 <div class="mb-3 bg-success p-2 rounded">
-                    <label class="form-label">Strength:</label>
+                    <label class="form-label">Strength: <strong>{{character.strength}}</strong></label>
                     <p>💪🏻</p>
-                    <input type="text" name="strength" min="0" class="form-control" placeholder="New strength..." value="0">
+                    <input type="text" name="strength" min="0" class="form-control" placeholder="New strength..."
+                        value="0">
                 </div>
 
                 <div class="mb-3 bg-warning p-2 rounded">
-                    <label class="form-label">Defense:</label>
+                    <label class="form-label">Defense: <strong>{{character.defense}}</strong></label>
                     <p>🛡️</p>
-                    <input type="text" name="defense" min="0" class="form-control" placeholder="New defense..." value="0">
+                    <input type="text" name="defense" min="0" class="form-control" placeholder="New defense..."
+                        value="0">
                 </div>
 
                 <button class="btn btn-info">Save Changes</button>
@@ -51,4 +54,4 @@
             <h3 class="error center-text bg-danger p-3 rounded">{{error}}</h3>
         </div>
     </div>
-{{/if}}
+    {{/if}}
