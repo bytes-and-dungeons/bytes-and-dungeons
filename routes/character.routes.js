@@ -138,7 +138,7 @@ router.post("/:charId/upgrade", isLoggedIn, isOwner, (req, res, next) => {
             } else {
                 req.session.error = "You tried to use more Experience Points than you currently have."
                 res.redirect(`/characters/${charId}/upgrade`);
-            }
+            } 
             
         })
         .then(() => {
