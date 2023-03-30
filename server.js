@@ -266,4 +266,8 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("disconnect", (reason) => {
+    console.log("Server Disconnected: " + reason);
+  });
+
 });

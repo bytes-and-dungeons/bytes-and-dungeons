@@ -135,3 +135,7 @@ socket.on("gameOver", (winnerSocketId, game) => {
         resultElm.innerText = "YOU LOSE!!!"
     }
 });
+
+socket.on("disconnect", (reason) => {
+    console.log("Client Disconnected: " + reason);
+});
