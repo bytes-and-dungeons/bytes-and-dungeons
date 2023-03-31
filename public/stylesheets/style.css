@@ -219,4 +219,9 @@ wavy-bg {
   .jumbotron p {
     font-size: 20px;
   }
+
+  #charDetailsStatsBig {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }

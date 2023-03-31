@@ -24,7 +24,7 @@ server.listen(PORT, () => {
 
 io.on("connection", (socket) => {
 
-
+  //Event to create a Game Session in our database, and redirect the socket to a "lobby", to wait for a second player to join
   socket.on("createGameSession", async (charId) => {
 
     try {
@@ -34,13 +34,15 @@ io.on("connection", (socket) => {
         selectedCharacter: charId
       };
 
-      const gameSession = await GameSession.create(gameSessionData);
+      //Create Game Session in the Database
+      await GameSession.create(gameSessionData);
 
+      //Redirect the socket to the "lobby" room
       socket.join("lobby");
 
       const clientsInLobby = io.sockets.adapter.rooms.get("lobby").size;
       
-      
+      //If there are 2 sockets in the lobby, generate a game room, and ask both sockets to ask the server to be moved to that room
       if(clientsInLobby === 2) {
         
         const gameRoom = Math.floor(Math.random() * 1000000);
@@ -53,17 +55,18 @@ io.on("connection", (socket) => {
     };
   });
 
+  //Event to create a Game document in our Database
   socket.on("initializeGame", async (gameRoom) => {
 
+    //Change socket from the lobby room to its new game room
     socket.join(`${gameRoom}`);
     socket.leave("lobby");
 
+    //If both players are in the game room already, create the Game document with all the necessary info
     if(io.sockets.adapter.rooms.get(`${gameRoom}`).size === 2) {
       
       const players = io.sockets.adapter.rooms.get(`${gameRoom}`);
       const playersArr = [...players];
-
-      io.to(`${gameRoom}`).emit("test");
 
       try {
 
@@ -92,7 +95,8 @@ io.on("connection", (socket) => {
         };
         
         const game = await Game.create(gameData);
-
+        
+        //Send the game information to both players, so that their browser can render the game
         io.to(`${gameRoom}`).emit("loadChar", charOne, charTwo, game);
 
       } catch (err) {
@@ -102,18 +106,20 @@ io.on("connection", (socket) => {
     }
   });  
 
+  //Event to initiallize each round
   socket.on("gameBeginRound", async (game) => {
 
     try{
 
+      //Update the chosen action of both players back to Idle
       const defaultActions = {
         playerOneActionState: "Idle",
         playerTwoActionState: "Idle",
-        //message: ""
       };
   
       const updatedGame = await Game.findByIdAndUpdate(game._id, defaultActions, {new: true});
   
+      //Send the game information back to the players
       io.to(`${game.gameRoom}`).emit("runRound", updatedGame);
 
     } catch (err) {
@@ -122,12 +128,15 @@ io.on("connection", (socket) => {
 
   });
 
+
+  //Event to reciev the input from players
   socket.on("gameButtonPressed", async (gameOld, action) => {
 
     try{
   
       let actionData;
   
+      //Check who the action choice belongs to
       if(gameOld.playerOneSocketId === socket.id) {
         actionData = {
           playerOneActionState: action
@@ -140,13 +149,14 @@ io.on("connection", (socket) => {
       
       const game = await Game.findByIdAndUpdate(gameOld._id, actionData, {new: true});
   
-      
+      //If both players have chosen the action to take, run the game logic
       if(game.playerOneActionState !== "Idle" && game.playerTwoActionState !== "Idle") {
         
         let message;
         let playerOneNewHealth;
         let playerTwoNewHealth;
   
+        //If elses to check all possible combinatons, and calculate outcomes
         if(game.playerOneActionState === game.playerTwoActionState){
 
           message = "Tie!!!";
@@ -168,7 +178,7 @@ io.on("connection", (socket) => {
         } else if (game.playerOneActionState === "Defense" && game.playerTwoActionState === "Attack") {
   
           message = `${game.playerOneChar[0].name} defended ${game.playerTwoChar[0].name}'s attack, and won the round!`;
-          playerTwoNewHealth = game.playerTwoChar[0].health - (Math.round(game.playerTwoChar[0].strength / 3));
+          playerTwoNewHealth = game.playerTwoChar[0].health - (Math.round(game.playerTwoChar[0].strength / 2));
           playerOneNewHealth = game.playerOneChar[0].health;
   
         } else if (game.playerTwoActionState === "Attack" && game.playerOneActionState === "Spell") {
@@ -186,18 +196,19 @@ io.on("connection", (socket) => {
         } else if (game.playerTwoActionState === "Defense" && game.playerOneActionState === "Attack") {
   
           message = `${game.playerTwoChar[0].name} defended ${game.playerOneChar[0].name}'s attack, and won the round!`;
-          playerOneNewHealth = game.playerOneChar[0].health - (Math.round(game.playerTwoChar[0].strength / 3));
+          playerOneNewHealth = game.playerOneChar[0].health - (Math.round(game.playerTwoChar[0].strength / 2));
           playerTwoNewHealth = game.playerTwoChar[0].health;
   
         }
   
-        
+        //If one of the players died, emit a game over event, passing the winner to the players
         if(playerOneNewHealth <= 0) {
           io.to(`${game.gameRoom}`).emit("gameOver", game.playerTwoSocketId, game);
         } else if (playerTwoNewHealth <= 0) {
           io.to(`${game.gameRoom}`).emit("gameOver", game.playerOneSocketId, game);
         } else {
-          
+
+          //If both are still alive, update info on the game document
           const updatedData = {
             message: message,
             playerOneChar: [{
@@ -216,6 +227,7 @@ io.on("connection", (socket) => {
     
           const updatedGame = await Game.findByIdAndUpdate(game._id, updatedData, {new: true});
   
+          //Initialize new round process
           io.to(`${game.gameRoom}`).emit("beginNewRound", updatedGame);
   
         } 
@@ -226,6 +238,7 @@ io.on("connection", (socket) => {
     
   });
 
+  //Event to destroy the game document from our Database, in case both players finished playing
   socket.on("destroyGame", async (game, winnerSocketId) => {
     try{
 
@@ -265,32 +278,41 @@ io.on("connection", (socket) => {
     }
   });
 
+  //Event to chec if the connecting socket was playing a game or waiting in the lobby before being disconnected
   socket.on("checkGame", async (newSocketId, charId) => {
 
     try {
+      //Get the former socket id
       const myGameSession = await GameSession.findOne({selectedCharacter: charId});
 
       const myOldSocketId = myGameSession.socketId;
 
+      //Update the socket id in use in the GAameSession document in the Database
       await GameSession.findByIdAndUpdate(myGameSession._id, {socketId: newSocketId}, {new: true});
 
+      //Try to find if there is a game where the player was playing before being disconnected 
       const myGame = await Game.findOne( { $or: [ { playerOneSocketId: myOldSocketId }, { playerTwoSocketId: myOldSocketId } ] } );
 
+      //If there is a Game
       if(myGame) {
         
+        //Check wich player we were, and update our socket id in the Game document
         if(myGame.playerOneSocketId === myOldSocketId) {
           await Game.findByIdAndUpdate(myGame._id, {playerOneSocketId: newSocketId});
         } else {
           await Game.findByIdAndUpdate(myGame._id, {playerTwoSocketId: newSocketId});
         }
   
+        //Rejoin the game room the player was in, before disconnecting
         socket.join(`${myGame.gameRoom}`);
   
+        //If the room has 2 players, restart the game from the its last stage before players disconnected
         if(io.sockets.adapter.rooms.get(`${myGame.gameRoom}`).size === 2) {
           io.to(`${myGame.gameRoom}`).emit("beginNewRound", myGame);
         }
 
       } else {
+        //If there was no game, we keep the player in the lobby room
         socket.join("lobby");
       }
 
@@ -299,21 +321,25 @@ io.on("connection", (socket) => {
     }
   });
 
+  //Event to check if the player disconnected, and is taking to long to reconnect
   socket.on("disconnect", () => {    
     
+    //On disconnection, we set a time out to check if in a few seconds the socket that disconnected didn't try to reconnect
     setTimeout(async () => {
 
       const socketGameSession = await GameSession.findOne({socketId: socket.id});
 
       if(socketGameSession){
-        
+        //If the game session document still has the same socket id after a few seconds, the player didn't reconnect, so we delete the Game Session from the Database
         if(socket.id === socketGameSession.socketId) {
           await GameSession.findByIdAndDelete(socketGameSession._id);
           
           const myGame = await Game.findOne( { $or: [ { playerOneSocketId: socket.id }, { playerTwoSocketId: socket.id } ] } );
   
+          //If the the player that disconnected was playing a game
           if(myGame) {
   
+            //Check if the socket id didn't change, and if it didnt, finish that game, giving victory to the opponent
             if(myGame.playerOneSocketId === socket.id) {
               await Game.findByIdAndUpdate(myGame._id, {playerOneLeft: true}, {new: true});
               io.to(`${myGame.gameRoom}`).emit("gameOver", myGame.playerTwoSocketId, myGame);

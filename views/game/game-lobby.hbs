@@ -89,12 +89,18 @@
     </div>
 </div>
 
-<div id="game-over" class="visually-hidden">
-    <h1>Result:</h1>
-    <h1 id="result"></h1>
-    <form action="/user-profile" method="GET">
-        <button type="submit">Exit Game</button>
-    </form>
+<div id="game-over" class="visually-hidden container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Result:</h1>
+            <h1 id="result" class="bg-primary rounded"></h1>
+        </div>
+    </div>
+    <div class="col-12 text-center">
+        <form action="/user-profile" method="GET">
+            <button type="submit" class="btn btn-success">Exit Game</button>
+        </form>
+    </div>
 </div>
 
 <script src="/js/gameLobby.js"></script>

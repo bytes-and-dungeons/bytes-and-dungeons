@@ -1,3 +1,7 @@
+//Function to create a new character for a user
+//The Name, Description, Class and Image of the new Character are chosen by the user
+//The remaining stats are picked randomly
+
 const Character = require("../models/Character.model");
 
 module.exports = (ownerId, characterName,  characterDescription, characterClass, charImgUrl) => {

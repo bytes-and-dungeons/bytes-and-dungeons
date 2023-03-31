@@ -2,7 +2,7 @@
     <div class="row no-gutters">
         <div class="col-md-4 col-lg-4"><img id="char-details-img" class="rounded" src="{{character.charImgUrl}}">
         </div>
-        <div class="col-md-8 col-lg-8">
+        <div class="col-sm-12 col-md-6 col-lg-8">
             <div class="d-flex flex-column">
                 <div
                     class="d-flex flex-row justify-content-between align-items-center p-5 bg-light border border-dark rounded mb-2">
@@ -17,7 +17,7 @@
                     <hr>
                     <h6>{{character.description}}</h6>
                 </div>
-                <div class="d-flex flex-row text-white">
+                <div class="d-flex flex-row text-white" id="charDetailsStatsBig">
                     <div class="p-4 bg-primary text-center skill-block rounded-start">
                         <h4>Health Points ❤️</h4>
                         <h6>{{character.healthPoints}}</h6>
@@ -38,27 +38,26 @@
             </div>
         </div>
     </div>
-</div>
 
-{{#if userIsOwner}}
-<div class="text-center">
-    <form action="/characters/{{character._id}}/edit" method="GET">
-        <button class="btn btn-success">EDIT CHARACTER</button>
-    </form>
+    {{#if userIsOwner}}
+    <div class="text-center">
+        <form action="/characters/{{character._id}}/edit" method="GET">
+            <button class="btn btn-success">EDIT CHARACTER</button>
+        </form>
 
-    <form action="/characters/{{character._id}}/delete" method="POST">
-        <button class="btn btn-danger">DELETE</button>
-    </form>
+        <form action="/characters/{{character._id}}/delete" method="POST">
+            <button class="btn btn-danger">DELETE</button>
+        </form>
 
-    <a href="/characters/{{character._id}}/upgrade" class="btn btn-warning mb-3">UPGRADE</a>
-</div>
-{{/if}}
-
-{{#if error}}
-<div class="container d-flex justify-content-center">
-    <div class="row">
-        <div class="col-12 center-text">
-            <h3 class="error center-text bg-danger p-3 rounded">{{error}}</h3>
-        </div>
+        <a href="/characters/{{character._id}}/upgrade" class="btn btn-warning mb-3">UPGRADE</a>
     </div>
     {{/if}}
+
+    {{#if error}}
+    <div class="container d-flex justify-content-center">
+        <div class="row">
+            <div class="col-12 center-text">
+                <h3 class="error center-text bg-danger p-3 rounded">{{error}}</h3>
+            </div>
+        </div>
+        {{/if}}

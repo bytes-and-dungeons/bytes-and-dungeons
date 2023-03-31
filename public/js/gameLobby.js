@@ -1,3 +1,4 @@
+//Connect to socket io server
 const socket = io({
     timeout: 120000,
     transports: ['websocket'] // 10 seconds
@@ -29,22 +30,23 @@ const enemyCharHealthElm = document.querySelector('#enemy-char .health');
 const enemyCharStrengthElm = document.querySelector('#enemy-char .strength');
 const enemyCharDefenseElm = document.querySelector('#enemy-char .defense');
 
-
+//Create a game session in the server
 socket.emit("createGameSession", charId);
 
-
+//This is called on connection and future reconnections
 socket.on("connect", () => {
-    console.log(socket.id);
+    //Asks the server to check if we are already playing a game or in the lobby, using our character ID
     socket.emit("checkGame", socket.id, charId);
 });
 
-
+//Called when the server finds a match for the client, giving our game room
 socket.on("changeRoom", gameRoom => {
     socket.emit("initializeGame", gameRoom);
     loadingPageElm.classList.add('visually-hidden');
     gamePageElm.classList.remove('visually-hidden');
 });
 
+//To load the characters information when the game starts
 socket.on("loadChar", (charOne, charTwo, game) => {
 
     let myChar;
@@ -76,6 +78,7 @@ socket.on("loadChar", (charOne, charTwo, game) => {
     
 });
 
+//To check for inputs during a round
 socket.on("runRound", game => {
     
     btnMenuElm.innerHTML = `<button id="attack-btn" class="btn btn-warning">ATTACK</button>
@@ -116,15 +119,15 @@ socket.on("runRound", game => {
     // enemy health
     enemyCharHealthElm.innerText = enemyChar.health;
 
-    
-    
 });
 
+//Updates report from last round, and asks the server to begin the new one
 socket.on("beginNewRound", game => {
     msgElm.innerText = game.message;
     socket.emit("gameBeginRound", game);
 });
 
+//Recieves the game over notification, to ask to finallize the whole game process
 socket.on("gameOver", (winnerSocketId, game) => {
 
     socket.emit("destroyGame", game, winnerSocketId);
@@ -137,8 +140,4 @@ socket.on("gameOver", (winnerSocketId, game) => {
     } else {
         resultElm.innerText = "YOU LOSE!!!"
     }
-});
-
-socket.on("disconnect", (reason) => {
-    console.log("Client Disconnected: " + reason);
 });
