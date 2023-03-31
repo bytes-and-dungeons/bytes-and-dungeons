@@ -63,7 +63,8 @@ io.on("connection", (socket) => {
     socket.join(`${gameRoom}`);
     socket.leave("lobby");
 
-    console.log("Clients in game room " + gameRoom + ": " + clientsInLobby);
+    const clientsInGame = io.sockets.adapter.rooms.get(`${gameRoom}`).size;
+    console.log("Clients in game room " + gameRoom + ": " + clientsInGame);
 
     //If both players are in the game room already, create the Game document with all the necessary info
     if(io.sockets.adapter.rooms.get(`${gameRoom}`).size === 2) {
