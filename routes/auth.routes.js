@@ -26,7 +26,7 @@ router.post("/signup", isLoggedOut, fileUploader.single('profile-pic'), (req, re
   const { username, email, password } = req.body;
 
   // Check that username, email, and password are provided
-  if (username === "" || email === "" || password === "") {
+  if (username === "" || email === "" || password === "" || req.file.path) {
     res.status(400).render("auth/signup", {
       errorMessage:
         "All fields are mandatory. Please provide your username, email and password.",
@@ -42,19 +42,6 @@ router.post("/signup", isLoggedOut, fileUploader.single('profile-pic'), (req, re
 
     return;
   }
-
-  //   ! This regular expression checks password for special characters and minimum length
-  /*
-  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-  if (!regex.test(password)) {
-    res
-      .status(400)
-      .render("auth/signup", {
-        errorMessage: "Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter."
-    });
-    return;
-  }
-  */
 
   const userIconImgUrl = req.file.path;
 
