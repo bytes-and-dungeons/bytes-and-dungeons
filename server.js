@@ -320,6 +320,8 @@ io.on("connection", (socket) => {
         } else {
           //If there was no game, we keep the player in the lobby room
           socket.join("lobby");
+          const clientsInLobby = io.sockets.adapter.rooms.get("lobby").size;
+          console.log("Clients in lobby: " + clientsInLobby);
         }
 
       } else {
