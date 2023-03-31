@@ -285,35 +285,41 @@ io.on("connection", (socket) => {
       //Get the former socket id
       const myGameSession = await GameSession.findOne({selectedCharacter: charId});
 
-      const myOldSocketId = myGameSession.socketId;
+      if(myGameSession) {
 
-      //Update the socket id in use in the GAameSession document in the Database
-      await GameSession.findByIdAndUpdate(myGameSession._id, {socketId: newSocketId}, {new: true});
-
-      //Try to find if there is a game where the player was playing before being disconnected 
-      const myGame = await Game.findOne( { $or: [ { playerOneSocketId: myOldSocketId }, { playerTwoSocketId: myOldSocketId } ] } );
-
-      //If there is a Game
-      if(myGame) {
-        
-        //Check wich player we were, and update our socket id in the Game document
-        if(myGame.playerOneSocketId === myOldSocketId) {
-          await Game.findByIdAndUpdate(myGame._id, {playerOneSocketId: newSocketId});
+        const myOldSocketId = myGameSession.socketId;
+  
+        //Update the socket id in use in the GAameSession document in the Database
+        await GameSession.findByIdAndUpdate(myGameSession._id, {socketId: newSocketId}, {new: true});
+  
+        //Try to find if there is a game where the player was playing before being disconnected 
+        const myGame = await Game.findOne( { $or: [ { playerOneSocketId: myOldSocketId }, { playerTwoSocketId: myOldSocketId } ] } );
+  
+        //If there is a Game
+        if(myGame) {
+          
+          //Check wich player we were, and update our socket id in the Game document
+          if(myGame.playerOneSocketId === myOldSocketId) {
+            await Game.findByIdAndUpdate(myGame._id, {playerOneSocketId: newSocketId});
+          } else {
+            await Game.findByIdAndUpdate(myGame._id, {playerTwoSocketId: newSocketId});
+          }
+    
+          //Rejoin the game room the player was in, before disconnecting
+          socket.join(`${myGame.gameRoom}`);
+    
+          //If the room has 2 players, restart the game from the its last stage before players disconnected
+          if(io.sockets.adapter.rooms.get(`${myGame.gameRoom}`).size === 2) {
+            io.to(`${myGame.gameRoom}`).emit("beginNewRound", myGame);
+          }
+  
         } else {
-          await Game.findByIdAndUpdate(myGame._id, {playerTwoSocketId: newSocketId});
-        }
-  
-        //Rejoin the game room the player was in, before disconnecting
-        socket.join(`${myGame.gameRoom}`);
-  
-        //If the room has 2 players, restart the game from the its last stage before players disconnected
-        if(io.sockets.adapter.rooms.get(`${myGame.gameRoom}`).size === 2) {
-          io.to(`${myGame.gameRoom}`).emit("beginNewRound", myGame);
+          //If there was no game, we keep the player in the lobby room
+          socket.join("lobby");
         }
 
       } else {
-        //If there was no game, we keep the player in the lobby room
-        socket.join("lobby");
+        socket.emit("initialization")
       }
 
     } catch (err) {

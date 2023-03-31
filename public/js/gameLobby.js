@@ -30,13 +30,17 @@ const enemyCharHealthElm = document.querySelector('#enemy-char .health');
 const enemyCharStrengthElm = document.querySelector('#enemy-char .strength');
 const enemyCharDefenseElm = document.querySelector('#enemy-char .defense');
 
-//Create a game session in the server
-socket.emit("createGameSession", charId);
 
 //This is called on connection and future reconnections
 socket.on("connect", () => {
     //Asks the server to check if we are already playing a game or in the lobby, using our character ID
     socket.emit("checkGame", socket.id, charId);
+});
+
+//Called when it's the first time connecting
+socket.on("initialization", () => {
+    //Create a game session in the server
+    socket.emit("createGameSession", charId);
 });
 
 //Called when the server finds a match for the client, giving our game room
