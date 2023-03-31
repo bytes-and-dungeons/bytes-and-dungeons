@@ -109,7 +109,7 @@ io.on("connection", (socket) => {
       const defaultActions = {
         playerOneActionState: "Idle",
         playerTwoActionState: "Idle",
-        message: ""
+        //message: ""
       };
   
       const updatedGame = await Game.findByIdAndUpdate(game._id, defaultActions, {new: true});
