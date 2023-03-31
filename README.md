@@ -11,7 +11,7 @@
     - Socket.io to create and manage web socket connections;
     - Cloudinary to manage uploaded pictures;
 
-![ScreenShot](/images/main-screenshot.png)
+![ScreenShot](./public/images/main-screenshot.png)
 
 ## How to use
 
