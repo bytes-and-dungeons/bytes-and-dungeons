@@ -37,6 +37,10 @@
                 <button class="btn btn-warning mt-4" type="submit">CREATE</button>
 
             </form>
+
+            {{#if errorMessage}}
+                <p class="error mt-5 text-bg-danger p-3 rounded">{{errorMessage}}</p>
+            {{/if}}
         </div>
     </div>
 </div>

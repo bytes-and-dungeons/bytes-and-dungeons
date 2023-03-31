@@ -92,6 +92,16 @@ router.get("/:charId/upgrade", isLoggedIn, isOwner, (req, res, next) => {
 router.post("/create", isLoggedIn, fileUploader.single('char-img'), (req, res, next) => {
     const {name, characterClass, description} = req.body;
 
+    // Check that username, email, and password are provided
+    if (name === "" || description === "" || !req.file) {
+        res.status(400).render("characters/character-create", {
+        errorMessage:
+            "All fields are mandatory. Please provide a name, description, password and a picture.",
+        });
+
+        return;
+    }
+
     const charImgUrl = req.file.path;
 
     const newCharacterData = createCharacter(req.session.currentUser._id, name, description, characterClass, charImgUrl);
