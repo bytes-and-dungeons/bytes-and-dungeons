@@ -26,10 +26,10 @@ router.post("/signup", isLoggedOut, fileUploader.single('profile-pic'), (req, re
   const { username, email, password } = req.body;
 
   // Check that username, email, and password are provided
-  if (username === "" || email === "" || password === "" || !req.file.path) {
+  if (username === "" || email === "" || password === "" || req.file.path === "undefined") {
     res.status(400).render("auth/signup", {
       errorMessage:
-        "All fields are mandatory. Please provide your username, email and password.",
+        "All fields are mandatory. Please provide your username, email, password and a profile picture.",
     });
 
     return;
