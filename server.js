@@ -41,6 +41,7 @@ io.on("connection", (socket) => {
       socket.join("lobby");
 
       const clientsInLobby = io.sockets.adapter.rooms.get("lobby").size;
+      console.log("Clients in lobby: " + clientsInLobby);
       
       //If there are 2 sockets in the lobby, generate a game room, and ask both sockets to ask the server to be moved to that room
       if(clientsInLobby === 2) {
@@ -61,6 +62,8 @@ io.on("connection", (socket) => {
     //Change socket from the lobby room to its new game room
     socket.join(`${gameRoom}`);
     socket.leave("lobby");
+
+    console.log("Clients in game room " + gameRoom + ": " + clientsInLobby);
 
     //If both players are in the game room already, create the Game document with all the necessary info
     if(io.sockets.adapter.rooms.get(`${gameRoom}`).size === 2) {
