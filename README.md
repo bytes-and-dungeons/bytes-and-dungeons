@@ -27,12 +27,12 @@
 ## Presentation
 
 - Find out more about this project!
-[Click to See Presentation!](https://bytes-and-dungeons.adaptable.app/)
+[Click to See Presentation!](https://drive.google.com/file/d/1OJLmj4KQ5QIZ1gBC_Rn9q9ayze_zVFUd/view?usp=sharing)
 
 ## Web Page
 
 - Feel like trying it???
-[Click to Play!](https://bytes-and-dungeons.adaptable.app/)
+[Click to Go!](https://bytes-and-dungeons.adaptable.app/)
 
 ## Things that we only remebered would be cool after the Code Freeze
 
@@ -46,11 +46,11 @@
 - Open your Repo folder using your Editor;
 - Open your Editor's terminal, and run "npm install" in your Repo folder;
 - Create a .env file with the following environment variables:
-    - PORT;
+    - PORT
     - CLOUDINARY_NAME
     - CLOUDINARY_KEY
     - CLOUDINARY_SECRET
-    Note that for Cloudinary to work, you need to have an account!
+    - Note that for Cloudinary to work, you need to have an account!
 
 ## Disclaimer
 
